@@ -46,10 +46,10 @@ struct ContentView: View {
                 NavigationView {
                     
                     if buttonState == .breakfast {
-                        Breakfast(items : makeBreakfast())
+                        Breakfast(items : makeBreakfastSection())
                     }
                     else if buttonState == .lunch {
-                        Breakfast(items : makeLunch())
+                        Breakfast(items : makeLunchSection())
                     }
                     else if buttonState == .dinner {
                         Text("Dinner")
