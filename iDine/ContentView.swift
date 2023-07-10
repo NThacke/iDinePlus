@@ -19,7 +19,7 @@ public var cart = Cart()
 struct ContentView: View {
     @State private var buttonState : ButtonState = .unselected
     
-    private var breakfastItems = Breakfast()
+//    private var breakfastItems = Breakfast()
     
 //    private var lunchItems = Lunch()
     
@@ -46,10 +46,10 @@ struct ContentView: View {
                 NavigationView {
                     
                     if buttonState == .breakfast {
-                        breakfastItems
+                        Breakfast(items : makeBreakfast())
                     }
                     else if buttonState == .lunch {
-                        Text("Lunch")
+                        Breakfast(items : makeLunch())
                     }
                     else if buttonState == .dinner {
                         Text("Dinner")

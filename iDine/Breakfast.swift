@@ -8,86 +8,68 @@
 import Foundation
 import SwiftUI
 
-private var breakfastItem : [MenuItem] = makeBreakfast()
-
 struct Breakfast : View {
+    
+    private var items : [MenuItem] = makeBreakfast()
     
     @State var refresh : Bool = false;
     
     var body : some View {
         List {
-            ForEach(breakfastItem) {item in
-                
-                Section(item.name) {
-                    HStack {
-                        VStack {
-                            Text(item.name);
-                            Text(item.description)
-                        }
-                        Spacer()
-                        Text("$\(item.price)");
-                        
-                        Button(action : {
-                            cart.add(item: item)
-                            update()
-                        }) {
-                            Image(systemName : "plus.app")
-                        }
-                        
-                        //this is used as a placeholder to ensure the view refreshes
-                        if(refresh) {
-                            
-                        }
-                        if(cart.contains(itemName:item.name)) {
-                            
-                            displayQuantity(item: item)
-                            
-                            displayRemoveButton(item: item)
-                        }
-                    }
-                }
+            ForEach(items) {item in
+                ItemRow(item: item)
             }
         }
     }
     
-    func update() {
-        refresh.toggle()
-    }
-        
-    func displayQuantity(item: MenuItem) -> some View {
-        var items = cart.getItems()
-        
-        var count : Int = 0;
-        for i in items {
-            if(item.name == i.name) {
-                count = count + 1
-            }
-        }
-        
-        return Text("\(count)")
-    }
-    func displayRemoveButton(item: MenuItem) -> some View {
-        Button(action : {
-            cart.remove(item: item)
-            update()
-        }) {
-            Image(systemName : "minus.square")
-        }
-        .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle to prevent additional button actions
-        .foregroundColor(Color.red)
+    init(items: [MenuItem]) {
+        self.items = items
     }
     
     
 }
 
-private func makeBreakfast() -> [MenuItem] {
+struct Breakfast_Previews: PreviewProvider {
+    static var previews: some View {
+        Breakfast(items: makeBreakfast())
+    }
+}
+
+func makeBreakfast() -> [MenuItem] {
     var menuItems = [MenuItem]()
     
-    let pancakes = MenuItem(name: "Pancakes", type : MenuType.Breakfast, image: "Breakfast", price: "5.00", description: "Our pancakes ... ")
+    let pancakes = MenuItem(name: "Pancakes", type : MenuType.Breakfast, image: "pancakes", price: "5.00", description: "Our pancakes ... ")
+    
     let waffles = MenuItem(name: "Waffles", type : MenuType.Breakfast, image : "Breakfast", price : "6.00", description: "Our waffles are the best!")
     
+    let eggsAndBacon = MenuItem(name: "Eggs & Bacon", type : MenuType.Breakfast, image : "Breakfast", price : "4.50", description : "")
+    
+//    var classics : MenuSection = MenuSection(name: "Classic Breakfast Items");
+//
+//    classics.append(item: pancakes)
+//    classics.append(item: waffles)
+//    classics.append(item: eggsAndBacon)
+//
+//    menuItems.append(classics)
     menuItems.append(pancakes);
     menuItems.append(waffles);
+    menuItems.append(eggsAndBacon)
     
     return menuItems;
 }
+
+func makeLunch() -> [MenuItem] {
+    
+    var menuItems = [MenuItem]()
+    
+    let blt = MenuItem(name: "BLT", type : MenuType.Lunch, image : "Lunch", price: "5.00", description: "Bacon, lettuce, tomato");
+    
+    let burger = MenuItem(name: "Burger", type : MenuType.Lunch, image : "Burger", price : "5.50", description : "Burger");
+    
+    menuItems.append(blt)
+    menuItems.append(burger)
+    
+    return menuItems
+}
+
+

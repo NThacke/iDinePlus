@@ -13,6 +13,23 @@ public enum MenuType {
     case Lunch
     case Dinner
 }
+
+struct MenuSection : Identifiable {
+    var id : UUID
+    var name : String
+    var items : [MenuItem]
+    
+    init(name: String) {
+        self.items = [MenuItem]()
+        self.name = name
+        self.id = UUID()
+    }
+    
+    mutating func append(item : MenuItem) {
+        items.append(item)
+    }
+}
+
 struct MenuItem : Identifiable, Equatable {
     var id : UUID
     var name : String
@@ -20,7 +37,6 @@ struct MenuItem : Identifiable, Equatable {
     var image : String
     var price : String
     var description : String
-    
         // Equatable protocol implementation
        public static func == (lhs: MenuItem, rhs: MenuItem) -> Bool {
            return lhs.name == rhs.name
@@ -38,5 +54,9 @@ struct MenuItem : Identifiable, Equatable {
         self.image = image;
         self.price = price;
         self.description = description;
+    }
+    
+    static func example() -> MenuItem {
+        return MenuItem(name : "Pancakes", type : MenuType.Breakfast, image : "pancakes", price : "5.00", description: "")
     }
 }
