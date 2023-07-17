@@ -22,8 +22,7 @@ struct ItemRow : View {
     
     var body : some View {
         HStack {
-            
-            Image(uiImage : restoreImageFromBase64String(string : item.image) ?? defaultImage()).resizable().frame(width: 50, height:50).cornerRadius(100)
+            Image(uiImage : manager.restoreImageFromBase64String(string : item.image) ?? manager.defaultImage()).resizable().frame(width: 50, height:50).cornerRadius(100)
             
             VStack(alignment : .leading) {
                 if(item.description.isEmpty) {
@@ -54,18 +53,6 @@ struct ItemRow : View {
     init(item: MenuItem, manager : Manager) {
         self.item = item
         self.manager = manager
-    }
-    
-    func restoreImageFromBase64String(string : String) -> UIImage? {
-        if let imageData = Data(base64Encoded: string) {
-            let image = UIImage(data: imageData)
-            return image
-        }
-        return nil
-    }
-    
-    func defaultImage() -> UIImage {
-        return UIImage(systemName : "fork.knife.circle.fill")!
     }
 }
 /**

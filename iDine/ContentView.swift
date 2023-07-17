@@ -79,7 +79,7 @@ struct ContentView: View {
             }
         }
         .popover(isPresented : observedManager.itemInQueueBinding) {
-            CustomizeItem(manager : manager)
+            CustomizeItem(manager : manager, item : manager.getItemInQueue()!)
         }
     }
     

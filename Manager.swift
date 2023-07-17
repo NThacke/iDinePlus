@@ -42,11 +42,11 @@ class Manager : ObservableObject {
      */
     private var queue : MenuItem?
     
-    func addToCart(item : MenuItem) {
+    func addToCart(item : OrderItem) {
         cart.add(item : item)
     }
     
-    func removeFromCart(item : MenuItem) {
+    func removeFromCart(item : OrderItem) {
         cart.remove(item : item)
     }
     
@@ -58,7 +58,7 @@ class Manager : ObservableObject {
     }
     func flushQueue() {
         self.queue = nil
-        itemInQueue.toggle()
+        itemInQueue = false
     }
     
     // Computed property to access itemInQueue as a Binding. This is useful for referencing the itemInQueue as a field to show Views. Specifically, if the field is true, then a popover allowing the user to customize the item and add it to their cart appears.
@@ -70,5 +70,21 @@ class Manager : ObservableObject {
                 self.itemInQueue = newValue
             }
         )
+    }
+    
+    func getItemInQueue() -> MenuItem? {
+        return queue
+    }
+    
+    func restoreImageFromBase64String(string : String) -> UIImage? {
+        if let imageData = Data(base64Encoded: string) {
+            let image = UIImage(data: imageData)
+            return image
+        }
+        return nil
+    }
+    
+    func defaultImage() -> UIImage {
+        return UIImage(systemName : "fork.knife.circle.fill")!
     }
 }
