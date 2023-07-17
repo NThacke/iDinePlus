@@ -20,12 +20,14 @@ struct BreakfastMenu : View {
     
     @State var refresh : Bool = false;
     
+    private let manager : Manager
+    
     var body : some View {
         List {
             ForEach(viewModel.myItems) {section in
                 Section(section.name) {
                     ForEach(section.items) {item in
-                        ItemRow(item : item)
+                        ItemRow(item : item, manager : manager)
                     }
                 }
             }
@@ -35,7 +37,10 @@ struct BreakfastMenu : View {
         .refreshable {
             viewModel.loadData()
         }
-        
+    }
+    
+    init(manager : Manager) {
+        self.manager = manager
     }
 }
 
@@ -68,6 +73,6 @@ class MenuViewModel: ObservableObject {
 
 struct Breakfast_Previews: PreviewProvider {
     static var previews: some View {
-        BreakfastMenu()
+        BreakfastMenu(manager : Manager())
     }
 }

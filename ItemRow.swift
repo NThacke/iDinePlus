@@ -15,10 +15,14 @@ import SwiftUI
 struct ItemRow : View {
     var item : MenuItem
     
+    /**
+            The manager is used to manage operations between Views. In particular, whenever an item is added to the cart, the manager is notified.
+     */
+    var manager : Manager
+    
     var body : some View {
         HStack {
-            
-            Image(uiImage : restoreImageFromBase64String(string : item.image) ?? defaultImage()).resizable().frame(width: 50, height:50).cornerRadius(100)
+            Image(uiImage : manager.restoreImageFromBase64String(string : item.image) ?? manager.defaultImage()).resizable().frame(width: 50, height:50).cornerRadius(100)
             
             VStack(alignment : .leading) {
                 if(item.description.isEmpty) {
@@ -37,7 +41,7 @@ struct ItemRow : View {
             Text("$\(item.price)");
             
             Button(action : {
-                
+                manager.addToQueue(item : item)
             }) {
                 Image(systemName : "plus.app")
             }
@@ -46,20 +50,9 @@ struct ItemRow : View {
             
         }
     }
-    init(item: MenuItem) {
+    init(item: MenuItem, manager : Manager) {
         self.item = item
-    }
-    
-    func restoreImageFromBase64String(string : String) -> UIImage? {
-        if let imageData = Data(base64Encoded: string) {
-            let image = UIImage(data: imageData)
-            return image
-        }
-        return nil
-    }
-    
-    func defaultImage() -> UIImage {
-        return UIImage(systemName : "fork.knife.circle.fill")!
+        self.manager = manager
     }
 }
 /**
@@ -101,6 +94,6 @@ struct RestrictionView : View {
 
 struct ItemRow_Previews: PreviewProvider {
     static var previews: some View {
-        ItemRow(item : MenuItem.example())
+        ItemRow(item : MenuItem.example(), manager : Manager())
     }
 }
