@@ -49,37 +49,43 @@ struct ContentView: View {
     
     var body: some View {
         
-        VStack {
+        NavigationView {
             VStack {
-                HStack {
-                    Spacer()
-                    Spacer()
-                    cartButton()
-                }
-                logo()
-                
-                Spacer()
-                HStack {
-                    breakfast()
-                    lunch()
-                    dinner()
-                }
-                
-                NavigationView {
-                    if buttonState == .breakfast {
-                        breakfastMenu
+                VStack {
+                    HStack {
+                        Spacer()
+                        Spacer()
+                        NavigationLink(destination: CartView(manager : manager)) {
+                            Image(systemName: "cart.circle")
+                                .resizable()
+                                .frame(width: 25, height:25).padding()
+                        }
                     }
-                    else if buttonState == .lunch {
-                        lunchMenu
+                    logo()
+                    
+                    Spacer()
+                    HStack {
+                        breakfast()
+                        lunch()
+                        dinner()
                     }
-                    else if buttonState == .dinner {
-                        dinnerMenu
+                    
+                    NavigationView {
+                        if buttonState == .breakfast {
+                            breakfastMenu
+                        }
+                        else if buttonState == .lunch {
+                            lunchMenu
+                        }
+                        else if buttonState == .dinner {
+                            dinnerMenu
+                        }
                     }
                 }
             }
-        }
-        .popover(isPresented : observedManager.itemInQueueBinding) {
-            CustomizeItem(manager : manager, item : manager.getItemInQueue()!)
+            .popover(isPresented : observedManager.itemInQueueBinding) {
+                CustomizeItem(manager : manager, item : manager.getItemInQueue()!)
+            }
         }
     }
     

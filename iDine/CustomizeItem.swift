@@ -8,7 +8,9 @@
 import Foundation
 import SwiftUI
 
-
+/**
+ This struct is used whenever the user decides to add an item to their cart. This View is used to customize the item (adding comments) and to then add it to their cart.
+ */
 struct CustomizeItem : View {
     
     private let manager : Manager
@@ -34,6 +36,11 @@ struct CustomizeItem : View {
                         manager.addToCart(item:orderItem)
                         manager.flushQueue()
                     }
+                }
+                Section("Changed your mind?") {
+                    Button("Cancel") {
+                        manager.flushQueue()
+                    }.foregroundColor(Color.red)
                 }
             }
         }

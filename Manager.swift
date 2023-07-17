@@ -32,7 +32,7 @@ class Manager : ObservableObject {
      */
     @Published public var itemInQueue : Bool = false
     
-    private let cart = Cart()
+    let cart = Cart()
     
     /**
             The item that is to potentially be added to the cart.

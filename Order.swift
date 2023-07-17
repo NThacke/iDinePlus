@@ -8,14 +8,16 @@
 import Foundation
 
 
-class OrderItem {
+class OrderItem : Identifiable{
     
     let item : MenuItem
     let comment : String
+    let id : String
     
     init(item : MenuItem, comment : String) {
         self.item = item
         self.comment = comment
+        self.id = UUID().uuidString
     }
 }
 
