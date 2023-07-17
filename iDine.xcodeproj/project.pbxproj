@@ -7,18 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A4C3B7332A5CA69F009915BE /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7322A5CA69F009915BE /* ItemRow.swift */; };
+		A4C3B7672A65CFD7009915BE /* BreakfastMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7662A65CFD7009915BE /* BreakfastMenu.swift */; };
+		A4C3B7692A65CFFB009915BE /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B7682A65CFFB009915BE /* APIHelper.swift */; };
+		A4C3B76B2A65D1A9009915BE /* LunchMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B76A2A65D1A9009915BE /* LunchMenu.swift */; };
+		A4C3B76D2A65D1C0009915BE /* DinnerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C3B76C2A65D1C0009915BE /* DinnerMenu.swift */; };
 		A4E921CB2A59FF00002B89F9 /* iDineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E921CA2A59FF00002B89F9 /* iDineApp.swift */; };
 		A4E921CD2A59FF00002B89F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E921CC2A59FF00002B89F9 /* ContentView.swift */; };
 		A4E921CF2A59FF02002B89F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4E921CE2A59FF02002B89F9 /* Assets.xcassets */; };
 		A4E921D22A59FF02002B89F9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4E921D12A59FF02002B89F9 /* Preview Assets.xcassets */; };
+		A4E921DB2A5C5815002B89F9 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E921DA2A5C5815002B89F9 /* MenuItem.swift */; };
+		A4E921DD2A5C5E8A002B89F9 /* Cart.swft.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E921DC2A5C5E8A002B89F9 /* Cart.swft.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A4C3B7322A5CA69F009915BE /* ItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRow.swift; sourceTree = "<group>"; };
+		A4C3B7662A65CFD7009915BE /* BreakfastMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakfastMenu.swift; sourceTree = "<group>"; };
+		A4C3B7682A65CFFB009915BE /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
+		A4C3B76A2A65D1A9009915BE /* LunchMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchMenu.swift; sourceTree = "<group>"; };
+		A4C3B76C2A65D1C0009915BE /* DinnerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DinnerMenu.swift; sourceTree = "<group>"; };
 		A4E921C72A59FF00002B89F9 /* iDine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4E921CA2A59FF00002B89F9 /* iDineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iDineApp.swift; sourceTree = "<group>"; };
 		A4E921CC2A59FF00002B89F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A4E921CE2A59FF02002B89F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A4E921D12A59FF02002B89F9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A4E921DA2A5C5815002B89F9 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
+		A4E921DC2A5C5E8A002B89F9 /* Cart.swft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swft.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +49,10 @@
 		A4E921BE2A59FF00002B89F9 = {
 			isa = PBXGroup;
 			children = (
+				A4C3B7322A5CA69F009915BE /* ItemRow.swift */,
+				A4C3B7682A65CFFB009915BE /* APIHelper.swift */,
+				A4E921DC2A5C5E8A002B89F9 /* Cart.swft.swift */,
+				A4E921DA2A5C5815002B89F9 /* MenuItem.swift */,
 				A4E921C92A59FF00002B89F9 /* iDine */,
 				A4E921C82A59FF00002B89F9 /* Products */,
 			);
@@ -53,6 +71,9 @@
 			children = (
 				A4E921CA2A59FF00002B89F9 /* iDineApp.swift */,
 				A4E921CC2A59FF00002B89F9 /* ContentView.swift */,
+				A4C3B7662A65CFD7009915BE /* BreakfastMenu.swift */,
+				A4C3B76A2A65D1A9009915BE /* LunchMenu.swift */,
+				A4C3B76C2A65D1C0009915BE /* DinnerMenu.swift */,
 				A4E921CE2A59FF02002B89F9 /* Assets.xcassets */,
 				A4E921D02A59FF02002B89F9 /* Preview Content */,
 			);
@@ -138,7 +159,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4E921CD2A59FF00002B89F9 /* ContentView.swift in Sources */,
+				A4C3B76B2A65D1A9009915BE /* LunchMenu.swift in Sources */,
+				A4E921DB2A5C5815002B89F9 /* MenuItem.swift in Sources */,
 				A4E921CB2A59FF00002B89F9 /* iDineApp.swift in Sources */,
+				A4C3B7672A65CFD7009915BE /* BreakfastMenu.swift in Sources */,
+				A4C3B7692A65CFFB009915BE /* APIHelper.swift in Sources */,
+				A4C3B76D2A65D1C0009915BE /* DinnerMenu.swift in Sources */,
+				A4C3B7332A5CA69F009915BE /* ItemRow.swift in Sources */,
+				A4E921DD2A5C5E8A002B89F9 /* Cart.swft.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
