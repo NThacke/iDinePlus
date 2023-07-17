@@ -14,16 +14,17 @@ enum ButtonState {
     case unselected
 }
 
-public var cart = Cart()
+var manager = Manager()
+
 
 struct ContentView: View {
     @State private var buttonState : ButtonState = .unselected
     
-    private var breakfastMenu = BreakfastMenu()
+    @ObservedObject var observedManager = manager
     
-    private var lunchMenu = LunchMenu()
-    
-    private var dinnerMenu = DinnerMenu()
+    let breakfastMenu = BreakfastMenu(manager : manager)
+    let lunchMenu = LunchMenu(manager: manager)
+    let dinnerMenu = DinnerMenu(manager: manager)
     
     var body: some View {
         
@@ -44,7 +45,6 @@ struct ContentView: View {
                 }
                 
                 NavigationView {
-                    
                     if buttonState == .breakfast {
                         breakfastMenu
                     }
@@ -56,6 +56,9 @@ struct ContentView: View {
                     }
                 }
             }
+        }
+        .popover(isPresented : manager.itemInQueueBinding) {
+            CustomizeItem(manager : manager)
         }
     }
     
