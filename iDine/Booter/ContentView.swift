@@ -14,30 +14,32 @@ enum ButtonState {
 }
 
 
-class AppState : ObservableObject{
+public class AppState : ObservableObject{
     
-    static let loading : Int = 0;
-    static let searchView : Int = 1;
-    static let menuView : Int = 2;
+    public static let loading : Int = 0;
+    public static let searchView : Int = 1;
+    public static let menuView : Int = 2;
     
+    
+    /**
+            The current state of the App.
+     */
     @Published var state : Int
     
+    /**
+            The current restaurant account that the user is observing.
+     */
+    static var account : String?
     
-    func load() {
-        print(self.state)
-        DispatchQueue.main.async {
-            Manager.loadRestaurantAccounts {
-                self.state = AppState.menuView
-                print("Done loading restaurant accounts")
-                print(self.state)
-            }
+    
+    private func load() {
+        Manager.loadRestaurantAccounts {
+            self.state = AppState.searchView
         }
     }
     
     init() {
-        print("Inside init of AppState")
         self.state = AppState.loading
-        print("Current state is \(state)")
         load()
     }
 }
@@ -55,12 +57,13 @@ struct ContentView: View {
     @EnvironmentObject private var current : AppState
     
     var body : some View {
-        VStack {
+        VStack { //VStack ensures that we send back a View containing all of our info, rather than just the first View seen
             
             if(current.state == 0) {} //Causes the app to refresh when current.state changes
             
             switch(current.state) {
             case AppState.menuView : MenuView()
+            case AppState.searchView : SearchView()
                 
                 
             default : LoadingView()

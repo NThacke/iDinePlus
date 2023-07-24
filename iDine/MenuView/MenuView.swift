@@ -17,6 +17,8 @@ import SwiftUI
 
 
 struct MenuView: View {
+    
+    @EnvironmentObject private var current : AppState
     /**
         A state to denote which 'section' of menus the user is in. This field is either .breakfast, .lunch, .dinner, or .unselected
      */

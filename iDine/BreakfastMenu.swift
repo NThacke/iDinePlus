@@ -16,7 +16,7 @@ enum Type {
 
 struct BreakfastMenu : View {
     
-    @StateObject var viewModel : MenuViewModel = MenuViewModel(menu : "breakfast")
+    @StateObject var viewModel : MenuViewModel = MenuViewModel(restaurantID : AppState.account ?? RestaurantAccount.example().id , menu : "breakfast")
     
     @State var refresh : Bool = false;
     
@@ -49,8 +49,10 @@ class MenuViewModel: ObservableObject {
     
     @Published var menu : String = ""
     
+    var restaurantID : String
+    
     func loadData() {
-        APIHelper.retrieveMenuItems(menu : menu) { [weak self] items in
+        APIHelper.retrieveMenuItems(restaurantID : restaurantID, menu : menu) { [weak self] items in
             DispatchQueue.main.async {
                 self?.myItems.removeAll()
                 self?.myItems = items
@@ -66,13 +68,14 @@ class MenuViewModel: ObservableObject {
         return nil
     }
     
-    init(menu : String) {
+    init(restaurantID : String, menu : String) {
         self.menu = menu
+        self.restaurantID = restaurantID
     }
 }
 
 struct Breakfast_Previews: PreviewProvider {
     static var previews: some View {
-        BreakfastMenu(manager : Manager())
+        BreakfastMenu(manager : Manager()).environmentObject(AppState())
     }
 }

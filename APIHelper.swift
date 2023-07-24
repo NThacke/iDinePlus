@@ -27,12 +27,12 @@ public class APIHelper {
      }
      
      */
-    static func retrieveMenuItems(menu : String, completion : @escaping ([MenuSection]) -> Void) {
+    static func retrieveMenuItems(restaurantID : String, menu : String, completion : @escaping ([MenuSection]) -> Void) {
         var sections = [String]() //menu sections
         var mySections = [MenuSection]()
     
         
-        getItems(menuType : menu) {items in
+        getItems(restaurantID : restaurantID, menuType : menu) {items in
             for item in items {
                 if(newSection(sections : sections, section : item.sectionType)) {
                     //newly found section, create it and append the item
@@ -114,14 +114,19 @@ public class APIHelper {
             task.resume()
     }
     
-    private static func getItems(menuType: String, completion: @escaping ([MenuItem]) -> Void) {
+    private static func getItems(restaurantID : String, menuType: String, completion: @escaping ([MenuItem]) -> Void) {
         print("Inside getItems")
+        
+        print("Restaurnt ID is \(restaurantID)")
 
         // Set the API endpoint URL
-        let url = URL(string: "https://nueyl8ey42.execute-api.us-east-1.amazonaws.com/testing/menu?menuType=\(menuType)")!
+        let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/menu?restaurantID=\(restaurantID)&menuType=\(menuType)")!
 
         // Create a URLSession instance
         let session = URLSession.shared
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
 
         // Create a data task
         let task = session.dataTask(with: url) { (data, response, error) in
@@ -133,7 +138,7 @@ public class APIHelper {
 
             // Handle the API response
             if let httpResponse = response as? HTTPURLResponse {
-//                print("Status code: \(httpResponse.statusCode)")
+                print("Status code: \(httpResponse.statusCode)")
 
                 if let data = data {
                     let items = process(data: data)
@@ -224,8 +229,6 @@ public class APIHelper {
     }
     
     static func getRestaurants(completion : @escaping ([RestaurantAccount]) -> Void) {
-        
-        DispatchQueue.main.async {
             print("Inside get restaurants")
             // Set the API endpoint URL
             let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/client/restaurants")!
@@ -263,7 +266,6 @@ public class APIHelper {
             
             // Start the data task
             task.resume()
-        }
     }
 }
 

@@ -8,9 +8,6 @@
 import Foundation
 import SwiftUI
 
-
-var manny = Manager()
-
 struct SearchView : View {
     
     @State var restaurants = Manager.restaurants ?? Manager.exampleRestaurants()
@@ -21,10 +18,37 @@ struct SearchView : View {
         VStack {
             List {
                 ForEach(restaurants) { restaurant in
-                    Text(restaurant.restaurantName)
+                    RestaurantView(restaurant: restaurant)
                 }
             }
         }
+    }
+}
+
+struct RestaurantView : View {
+    
+    @EnvironmentObject var current : AppState
+    
+    var restaurant : RestaurantAccount
+    
+    var body : some View {
+        
+        VStack {
+            HStack {
+                
+                Image(uiImage : restaurant.image() ?? RestaurantAccount.example().image()!)
+                
+                Text(restaurant.restaurantName)
+            }.onTapGesture {
+                current.state = AppState.menuView
+                AppState.account = restaurant.id
+            }
+        }
+    }
+    
+    
+    init(restaurant : RestaurantAccount) {
+        self.restaurant = restaurant
     }
 }
 

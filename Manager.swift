@@ -93,12 +93,10 @@ class Manager : ObservableObject {
     }
     
     static func loadRestaurantAccounts(completion : @escaping () -> Void) {
-        DispatchQueue.main.async {
-            print("Inside load restaurants")
-            APIHelper.getRestaurants() {item in
-                Manager.restaurants = item
-                completion()
-            }
+        print("Inside load restaurants")
+        APIHelper.getRestaurants() {item in
+            Manager.restaurants = item
+            completion()
         }
     }
     
