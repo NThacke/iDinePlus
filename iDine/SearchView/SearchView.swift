@@ -16,6 +16,11 @@ struct SearchView : View {
     
     var body : some View {
         VStack {
+            HStack {
+                Text("Restaurants").bold()
+                Spacer()
+            }
+            .padding()
             List {
                 ForEach(restaurants) { restaurant in
                     RestaurantView(restaurant: restaurant)

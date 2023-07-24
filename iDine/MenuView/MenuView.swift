@@ -51,7 +51,7 @@ struct MenuView: View {
                 VStack {
                     HStack {
                         
-                        Button("Back") {
+                        Button("<- Back") {
                             current.state = AppState.searchView
                         }
                         Spacer()
