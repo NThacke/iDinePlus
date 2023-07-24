@@ -29,7 +29,7 @@ public class AppState : ObservableObject{
     /**
             The current restaurant account that the user is observing.
      */
-    static var account : String?
+    static var account : RestaurantAccount?
     
     
     private func load() {
@@ -62,8 +62,8 @@ struct ContentView: View {
             if(current.state == 0) {} //Causes the app to refresh when current.state changes
             
             switch(current.state) {
-            case AppState.menuView : MenuView()
-            case AppState.searchView : SearchView()
+                case AppState.menuView : MenuView()
+                case AppState.searchView : SearchView()
                 
                 
             default : LoadingView()

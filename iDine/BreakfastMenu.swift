@@ -16,7 +16,7 @@ enum Type {
 
 struct BreakfastMenu : View {
     
-    @StateObject var viewModel : MenuViewModel = MenuViewModel(restaurantID : AppState.account ?? RestaurantAccount.example().id , menu : "breakfast")
+    @StateObject var viewModel : MenuViewModel = MenuViewModel(restaurantID : AppState.account?.id ?? RestaurantAccount.example().id , menu : "breakfast")
     
     @State var refresh : Bool = false;
     

@@ -36,12 +36,12 @@ struct RestaurantView : View {
         VStack {
             HStack {
                 
-                Image(uiImage : restaurant.image() ?? RestaurantAccount.example().image()!)
+                Image(uiImage : restaurant.image() ?? RestaurantAccount.example().image()!).resizable().frame(width: 50, height : 50).cornerRadius(100)
                 
                 Text(restaurant.restaurantName)
             }.onTapGesture {
                 current.state = AppState.menuView
-                AppState.account = restaurant.id
+                AppState.account = restaurant
             }
         }
     }

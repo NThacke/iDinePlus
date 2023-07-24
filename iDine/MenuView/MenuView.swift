@@ -50,14 +50,18 @@ struct MenuView: View {
             VStack {
                 VStack {
                     HStack {
+                        
+                        Button("Back") {
+                            current.state = AppState.searchView
+                        }
                         Spacer()
                         Spacer()
                         NavigationLink(destination: CartView(manager : manager)) {
                             Image(systemName: "cart.circle")
                                 .resizable()
-                                .frame(width: 25, height:25).padding()
+                                .frame(width: 25, height:25)
                         }
-                    }
+                    }.padding()
                     logo()
                     
                     Spacer()
@@ -118,10 +122,10 @@ struct MenuView: View {
      Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
      */
     func logo() -> some View {
-        Image(systemName: "fork.knife.circle")
+        Image(uiImage: (AppState.account?.image() ?? RestaurantAccount.example().image()! ))
             .resizable()
+            .frame(width:100, height:100).cornerRadius(100)
             .padding()
-            .frame(width:100, height:100)
     }
     /**
      This method is used to return a view which displays a button.
