@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LunchMenu : View {
     
-    @StateObject var viewModel : MenuViewModel = MenuViewModel(menu : "lunch")
+    @StateObject var viewModel : MenuViewModel = MenuViewModel(restaurantID : AppState.account?.id ?? RestaurantAccount.example().id, menu : "lunch")
     
     @State var refresh : Bool = false;
     

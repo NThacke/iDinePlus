@@ -14,7 +14,7 @@ import SwiftUI
 
 struct DinnerMenu : View {
     
-    @StateObject var viewModel : MenuViewModel = MenuViewModel(menu : "dinner")
+    @StateObject var viewModel : MenuViewModel = MenuViewModel(restaurantID : AppState.account?.id ?? RestaurantAccount.example().id, menu : "dinner")
     
     @State var refresh : Bool = false;
     

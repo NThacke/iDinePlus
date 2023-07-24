@@ -11,6 +11,10 @@ import SwiftUI
 
 class Manager : ObservableObject {
     
+    
+    static var restaurants : [RestaurantAccount]?
+    
+    
     /**
             This field is used to denote whether or not an item is in the queue. The @Published keyword denotes that this field can be observed in an external View -- when the value changes, the View will reflect that change.
      
@@ -86,5 +90,26 @@ class Manager : ObservableObject {
     
     func defaultImage() -> UIImage {
         return UIImage(systemName : "fork.knife.circle.fill")!
+    }
+    
+    static func loadRestaurantAccounts(completion : @escaping () -> Void) {
+        print("Inside load restaurants")
+        APIHelper.getRestaurants() {item in
+            Manager.restaurants = item
+            completion()
+        }
+    }
+    
+    static func exampleRestaurants() -> [RestaurantAccount] {
+        let example = RestaurantAccount.example()
+        
+        return [example]
+    }
+    
+    
+    
+    
+    init() {
+        Manager.loadRestaurantAccounts {}
     }
 }
