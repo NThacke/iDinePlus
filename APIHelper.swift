@@ -225,43 +225,45 @@ public class APIHelper {
     
     static func getRestaurants(completion : @escaping ([RestaurantAccount]) -> Void) {
         
-        print("Inside get restaurants")
-        // Set the API endpoint URL
-        let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/client/restaurants")!
-
-        // Create a URLSession instance
-        let session = URLSession.shared
-
-        // Create a data task
-        let task = session.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                completion([]) // Call the completion handler with an empty array
-                return
-            }
-
-            // Handle the API response
-            if let httpResponse = response as? HTTPURLResponse {
-//                print("Status code: \(httpResponse.statusCode)")
-
-                if let data = data {
-                    let items = processRestaurants(data: data)
+        DispatchQueue.main.async {
+            print("Inside get restaurants")
+            // Set the API endpoint URL
+            let url = URL(string: "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/client/restaurants")!
+            
+            // Create a URLSession instance
+            let session = URLSession.shared
+            
+            // Create a data task
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                    completion([]) // Call the completion handler with an empty array
+                    return
+                }
+                
+                // Handle the API response
+                if let httpResponse = response as? HTTPURLResponse {
+                    //                print("Status code: \(httpResponse.statusCode)")
                     
-                    for item in items {
-                        print(item.restaurantName)
+                    if let data = data {
+                        let items = processRestaurants(data: data)
+                        
+                        for item in items {
+                            print(item.restaurantName)
+                        }
+                        
+                        completion(items) // Call the completion handler with the received items
+                    } else {
+                        completion([]) // Call the completion handler with an empty array
                     }
-                    
-                    completion(items) // Call the completion handler with the received items
                 } else {
                     completion([]) // Call the completion handler with an empty array
                 }
-            } else {
-                completion([]) // Call the completion handler with an empty array
             }
+            
+            // Start the data task
+            task.resume()
         }
-
-        // Start the data task
-        task.resume()
     }
 }
 
