@@ -16,16 +16,15 @@ struct CartView : View {
     @State var refresh = false
     
     var body : some View {
-            
         List {
-            ForEach(manager.cart.order.items) {item in
+            ForEach(manager.cartMap[AppState.account?.id ?? RestaurantAccount.example().id]?.order.items ?? Order.empty()) {item in
                 Section(item.item.name) {
                     DisplayOrder(order : item)
                 }
             }
             .onDelete(perform : {item in
                 if let index = item.first {
-                    manager.cart.order.items.remove(at : index)
+                    manager.cartMap[AppState.account!.id]!.order.items.remove(at : index)
                 }
                 refresh.toggle()
             })

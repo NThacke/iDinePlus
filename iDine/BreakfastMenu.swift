@@ -44,6 +44,9 @@ struct BreakfastMenu : View {
     }
 }
 
+/**
+ This class is used to store menu items. This is used to have dynamic content 
+ */
 class MenuViewModel: ObservableObject {
     @Published var myItems: [MenuSection] = []
     

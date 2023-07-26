@@ -13,6 +13,8 @@ import SwiftUI
  */
 struct CustomizeItem : View {
     
+    @EnvironmentObject var current : AppState
+    
     private let manager : Manager
     
     private let item : MenuItem
@@ -33,7 +35,7 @@ struct CustomizeItem : View {
                     Button("Add to Order") {
                         let orderItem = OrderItem(item : item, comment : comments)
                         
-                        manager.addToCart(item:orderItem)
+                        manager.addToCart(restaurantID : AppState.account!.id, item:orderItem)
                         manager.flushQueue()
                     }
                 }

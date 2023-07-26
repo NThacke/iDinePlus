@@ -33,8 +33,10 @@ public class AppState : ObservableObject{
     
     
     private func load() {
-        Manager.loadRestaurantAccounts {
-            self.state = AppState.searchView
+        DispatchQueue.main.async {
+            Manager.loadRestaurantAccounts {
+                self.state = AppState.searchView
+            }
         }
     }
     
@@ -68,7 +70,7 @@ struct ContentView: View {
                 
             default : LoadingView()
             }
-        }
+        }.animation(.easeIn)
     }
 }
 
