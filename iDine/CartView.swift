@@ -16,22 +16,46 @@ struct CartView : View {
     @State var refresh = false
     
     var body : some View {
-        List {
-            ForEach(manager.cartMap[AppState.account?.id ?? RestaurantAccount.example().id]?.order.items ?? Order.empty()) {item in
-                Section(item.item.name) {
-                    DisplayOrder(order : item)
+        VStack {
+            Group { //Header
+                HStack {
+                    Text("My Cart").bold()
+                    Spacer()
+                }.padding()
+                Rectangle().stroke(lineWidth: 1).frame(width : .infinity, height : 1)
+            }
+            if let cart = manager.cartMap[AppState.account?.id ?? ""] {
+                if(cart.order.items.count > 0) {
+                    List {
+                        ForEach(manager.cartMap[AppState.account?.id ?? RestaurantAccount.example().id]?.order.items ?? Order.empty()) {item in
+                            Section(item.item.name) {
+                                DisplayOrder(order : item)
+                            }
+                        }
+                        .onDelete(perform : {item in
+                            if let index = item.first {
+                                manager.cartMap[AppState.account!.id]!.order.items.remove(at : index)
+                            }
+                            refresh.toggle()
+                        })
+                        if refresh {}
+                    }
+                    Button("Place Order") {
+                        
+                    }
+                }
+                else {
+                    VStack {
+                        Text("Your cart is empty!")
+                    }
                 }
             }
-            .onDelete(perform : {item in
-                if let index = item.first {
-                    manager.cartMap[AppState.account!.id]!.order.items.remove(at : index)
+            else {
+                VStack {
+                    Text("Your cart is empty!")
                 }
-                refresh.toggle()
-            })
-            if refresh {}
-        }
-        Button("Place Order") {
-            
+            }
+            Spacer()
         }
     }
     
