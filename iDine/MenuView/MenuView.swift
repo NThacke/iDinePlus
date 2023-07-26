@@ -50,10 +50,13 @@ struct MenuView: View {
             VStack {
                 VStack {
                     HStack {
-                        
-                        Button("<- Back") {
-                            current.state = AppState.searchView
-                        }
+                        HStack {
+                            Image(systemName : "chevron.backward").bold()
+                            Text("Back")
+                        }.foregroundColor(Color.blue)
+                            .onTapGesture {
+                                current.state = AppState.searchView
+                            }
                         Spacer()
                         Spacer()
                         NavigationLink(destination: CartView(manager : manager)) {
@@ -62,6 +65,8 @@ struct MenuView: View {
                                 .frame(width: 25, height:25)
                         }
                     }.padding()
+                    
+                    Text(AppState.account?.restaurantName ?? RestaurantAccount.example().restaurantName).bold()
                     logo()
                     
                     Spacer()
