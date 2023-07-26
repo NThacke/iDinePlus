@@ -8,7 +8,7 @@
 import Foundation
 
 
-class OrderItem : Identifiable{
+class OrderItem : Identifiable {
     
     let item : MenuItem
     let comment : String
@@ -18,6 +18,10 @@ class OrderItem : Identifiable{
         self.item = item
         self.comment = comment
         self.id = UUID().uuidString
+    }
+    
+    static func example() -> OrderItem {
+        return OrderItem(item : MenuItem.example(), comment : "Example comment!")
     }
 }
 
@@ -39,5 +43,15 @@ class Order {
     }
     init() {
         items = [OrderItem]()
+    }
+    
+    static func example() -> [OrderItem] {
+        var list = [OrderItem]()
+        list.append(OrderItem.example())
+        return list
+    }
+    
+    static func empty() -> [OrderItem] {
+        return [OrderItem]()
     }
 }

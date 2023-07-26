@@ -25,6 +25,10 @@ struct SearchView : View {
                 ForEach(restaurants) { restaurant in
                     RestaurantView(restaurant: restaurant)
                 }
+            }.refreshable {
+                Manager.loadRestaurantAccounts() {
+                    refresh.toggle()
+                }
             }
         }
     }
