@@ -60,7 +60,7 @@ struct MenuView: View {
                             }
                         Spacer()
                         Spacer()
-                        NavigationLink(destination: CartView(manager : manager)) {
+                        NavigationLink(destination: CartView()) {
                             Image(systemName: "cart.circle")
                                 .resizable()
                                 .frame(width: 25, height:25)
@@ -151,6 +151,6 @@ struct MenuView: View {
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        MenuView().environmentObject(Manager())
     }
 }

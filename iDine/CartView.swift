@@ -11,7 +11,7 @@ import SwiftUI
 
 struct CartView : View {
     
-    let manager : Manager
+    @EnvironmentObject private var manager : Manager
     
     @State var refresh = false
     
@@ -59,11 +59,6 @@ struct CartView : View {
         }
     }
     
-    
-    init(manager : Manager) {
-        self.manager = manager
-    }
-    
 }
 
 struct DisplayOrder : View {
@@ -87,6 +82,6 @@ struct DisplayOrder : View {
 
 struct CartView_Previews: PreviewProvider {
     static var previews: some View {
-        CartView(manager : Manager())
+        CartView().environmentObject(Manager())
     }
 }

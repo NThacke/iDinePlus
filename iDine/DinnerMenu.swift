@@ -21,19 +21,26 @@ struct DinnerMenu : View {
     @EnvironmentObject private var manager : Manager
     
     var body : some View {
-        List {
-            ForEach(viewModel.myItems) {section in
-                Section(section.name) {
-                    ForEach(section.items) {item in
-                        ItemRow(item : item)
+        if(viewModel.myItems.isEmpty) {
+            List {
+                ForEach(viewModel.myItems) {section in
+                    Section(section.name) {
+                        ForEach(section.items) {item in
+                            ItemRow(item : item)
+                        }
                     }
                 }
+            }.onAppear(perform: {
+                viewModel.loadData()
+            })
+            .refreshable {
+                viewModel.loadData()
             }
-        }.onAppear(perform: {
-            viewModel.loadData()
-        })
-        .refreshable {
-            viewModel.loadData()
+        }
+        else {
+            VStack {
+                Text("There aren't any items!")
+            }
         }
     }
 }
