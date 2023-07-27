@@ -81,6 +81,7 @@ class MenuViewModel: ObservableObject {
     init(restaurantID : String, menu : String) {
         self.menu = menu
         self.restaurantID = restaurantID
+        loadData()
     }
 }
 
