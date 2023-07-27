@@ -72,7 +72,7 @@ struct ContentView: View {
                 
             default : LoadingView()
             }
-        }.animation(.easeIn)
+        }
     }
 }
 

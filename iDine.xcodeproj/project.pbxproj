@@ -80,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				A4E921CC2A59FF00002B89F9 /* ContentView.swift */,
+				A4E921CA2A59FF00002B89F9 /* iDineApp.swift */,
 			);
 			path = Booter;
 			sourceTree = "<group>";
@@ -121,7 +122,6 @@
 				A40311422A6F018C00E0FA15 /* MenuView */,
 				A40311412A6EFBBD00E0FA15 /* Booter */,
 				A403113B2A6EF3E300E0FA15 /* SearchView */,
-				A4E921CA2A59FF00002B89F9 /* iDineApp.swift */,
 				A4C3B7702A65DBA3009915BE /* CustomizeItem.swift */,
 				A4C3B7662A65CFD7009915BE /* BreakfastMenu.swift */,
 				A4C3B76A2A65D1A9009915BE /* LunchMenu.swift */,

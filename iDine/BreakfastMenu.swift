@@ -21,19 +21,26 @@ struct BreakfastMenu : View {
     @EnvironmentObject var manager : Manager
     
     var body : some View {
-        List {
-            ForEach(viewModel.myItems) {section in
-                Section(section.name) {
-                    ForEach(section.items) {item in
-                        ItemRow(item : item)
+        VStack {
+            if(!viewModel.myItems.isEmpty) {
+                List {
+                    ForEach(viewModel.myItems) {section in
+                        Section(section.name) {
+                            ForEach(section.items) {item in
+                                ItemRow(item : item)
+                            }
+                        }
                     }
+                }.onAppear(perform: {
+                    viewModel.loadData()
+                })
+                .refreshable {
+                    viewModel.loadData()
                 }
             }
-        }.onAppear(perform: {
-            viewModel.loadData()
-        })
-        .refreshable {
-            viewModel.loadData()
+            else {
+                    Text("There aren't any items!")
+            }
         }
     }
 }
@@ -74,6 +81,7 @@ class MenuViewModel: ObservableObject {
     init(restaurantID : String, menu : String) {
         self.menu = menu
         self.restaurantID = restaurantID
+        loadData()
     }
 }
 
