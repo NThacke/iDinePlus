@@ -77,7 +77,8 @@ struct MenuView: View {
                         lunch()
                         Rectangle().frame(width: 0, height: 30)
                         dinner()
-                    }.overlay(RoundedRectangle(cornerRadius: 100).stroke(Color.blue, lineWidth:1)).animation(.linear)
+                    }
+                    .overlay(RoundedRectangle(cornerRadius: 100).stroke(Color.blue, lineWidth:1)).animation(.linear)
                     
                     NavigationView {
                         if buttonState == .breakfast {
