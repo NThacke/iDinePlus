@@ -14,14 +14,14 @@ struct LunchMenu : View {
     
     @State var refresh : Bool = false;
     
-    private let manager : Manager
+    @EnvironmentObject private var manager : Manager
     
     var body : some View {
         List {
             ForEach(viewModel.myItems) {section in
                 Section(section.name) {
                     ForEach(section.items) {item in
-                        ItemRow(item : item, manager : manager)
+                        ItemRow(item : item)
                     }
                 }
             }
@@ -33,14 +33,10 @@ struct LunchMenu : View {
         }
         
     }
-    
-    init(manager : Manager) {
-        self.manager = manager;
-    }
 }
 
 struct LunchMenu_Previews: PreviewProvider {
     static var previews: some View {
-        LunchMenu(manager: Manager())
+        LunchMenu().environmentObject(Manager())
     }
 }

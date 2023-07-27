@@ -19,30 +19,31 @@ import SwiftUI
 struct MenuView: View {
     
     @EnvironmentObject private var current : AppState
+    
+    /**
+     The manager which is used to pass information from view to view. Specifically, the manager is used as a way to add items to your cart and to view your cart.
+     */
+    
+    @EnvironmentObject private var manager : Manager
     /**
         A state to denote which 'section' of menus the user is in. This field is either .breakfast, .lunch, .dinner, or .unselected
      */
     @State private var buttonState : ButtonState = .unselected
     
     /**
-     The manager which is used to pass information from view to view. Specifically, the manager is used as a way to add items to your cart and to view your cart.
-     */
-    @ObservedObject var observedManager = manager
-    
-    /**
             The Breakfast Menu View. This is referenced as its own Object for the sake of code readability.
      */
-    let breakfastMenu = BreakfastMenu(manager : manager)
+    let breakfastMenu = BreakfastMenu()
     
     /**
             The Lunch Menu View. This is referenced as its own Object for the sake of code readability.
      */
-    let lunchMenu = LunchMenu(manager: manager)
+    let lunchMenu = LunchMenu()
     
     /**
             The Dinner Menu View. This is referenced as its own Object for the sake of code readability.
      */
-    let dinnerMenu = DinnerMenu(manager: manager)
+    let dinnerMenu = DinnerMenu()
     
     var body: some View {
         
@@ -89,8 +90,8 @@ struct MenuView: View {
                     }
                 }
             }
-            .popover(isPresented : observedManager.itemInQueueBinding) {
-                CustomizeItem(manager : manager, item : manager.getItemInQueue()!)
+            .popover(isPresented : manager.itemInQueueBinding) {
+                CustomizeItem(item : manager.getItemInQueue()!)
             }
         }
     }

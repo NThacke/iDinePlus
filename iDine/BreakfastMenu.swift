@@ -18,16 +18,14 @@ struct BreakfastMenu : View {
     
     @StateObject var viewModel : MenuViewModel = MenuViewModel(restaurantID : AppState.account?.id ?? RestaurantAccount.example().id , menu : "breakfast")
     
-    @State var refresh : Bool = false;
-    
-    private let manager : Manager
+    @EnvironmentObject var manager : Manager
     
     var body : some View {
         List {
             ForEach(viewModel.myItems) {section in
                 Section(section.name) {
                     ForEach(section.items) {item in
-                        ItemRow(item : item, manager : manager)
+                        ItemRow(item : item)
                     }
                 }
             }
@@ -38,14 +36,16 @@ struct BreakfastMenu : View {
             viewModel.loadData()
         }
     }
-    
-    init(manager : Manager) {
-        self.manager = manager
-    }
 }
 
 /**
- This class is used to store menu items. This is used to have dynamic content 
+ This class is used to store menu items. This is used to have dynamic content
+ 
+ This class is used as a @StateObject inside each BreakfastMenu, LunchMenu, or DinnerMenu View.
+ 
+ By having the @StateObject modifier, we are telling SwiftUI to update the views whenever a @Published variable is modified inside the @StateObject.
+ 
+ As such, this allows us to store dynamic content. We can invoke .loadData() which will refresh the data, and when SwiftUI noticies that the data has been modified, it refreshes it's views which use that data.
  */
 class MenuViewModel: ObservableObject {
     @Published var myItems: [MenuSection] = []
@@ -79,6 +79,6 @@ class MenuViewModel: ObservableObject {
 
 struct Breakfast_Previews: PreviewProvider {
     static var previews: some View {
-        BreakfastMenu(manager : Manager()).environmentObject(AppState())
+        BreakfastMenu().environmentObject(AppState()).environmentObject(Manager())
     }
 }
