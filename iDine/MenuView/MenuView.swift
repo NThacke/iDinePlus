@@ -73,9 +73,11 @@ struct MenuView: View {
                     Spacer()
                     HStack {
                         breakfast()
+                        Rectangle().frame(width: 0, height: 30)
                         lunch()
+                        Rectangle().frame(width: 0, height: 30)
                         dinner()
-                    }
+                    }.overlay(RoundedRectangle(cornerRadius: 100).stroke(Color.blue, lineWidth:1)).animation(.linear)
                     
                     NavigationView {
                         if buttonState == .breakfast {
@@ -97,10 +99,19 @@ struct MenuView: View {
     }
     
     func dinner() -> some View {
-        Button("Dinner", action : {
+        HStack {
+            if(buttonState == .dinner) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 100).foregroundColor(Color.blue).frame(width:60, height:30).overlay(Text("Dinner")).foregroundColor(Color.white)
+                }
+            }
+            else {
+                Text("Dinner").foregroundColor(Color.blue)
+                Rectangle().frame(width:1, height:30).foregroundColor(Color.clear) //This makes the text in sync with the rounded rectangel surroundeing the Breakfast,lunch,dinner selection
+            }
+        }.onTapGesture {
             buttonState = .dinner
-        })
-        .foregroundColor(buttonState == .dinner ? Color.black : Color.blue)
+        }
     }
     
     /**
@@ -108,20 +119,39 @@ struct MenuView: View {
      Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
      */
     func lunch() -> some View {
-        Button("Lunch", action : {
+        HStack {
+            if(buttonState == .lunch) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 100).foregroundColor(Color.blue).frame(width:60, height:30).overlay(Text("Lunch")).foregroundColor(Color.white)
+                }
+            }
+            else {
+                Rectangle().frame(width:0.5, height:30).foregroundColor(Color.clear) //This keeps the text in sync with the rounded rectangles
+                Text("Lunch").foregroundColor(Color.blue)
+                Rectangle().frame(width:0.5, height:30).foregroundColor(Color.clear)//This keeps the text in sync with the rounded rectangles
+            }
+        }.onTapGesture {
             buttonState = .lunch
-        })
-        .foregroundColor(buttonState == .lunch ? Color.black : Color.blue)
+        }
     }
     /**
      This method is used to return a view which displays a button.
      Using this instead of directly inserting the view into the callee location enables modular use as well as encourages code readability.
      */
     func breakfast() -> some View {
-        Button("Breakfast", action : {
+        HStack {
+            if(buttonState == .breakfast) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 100).foregroundColor(Color.blue).frame(width:80, height:30).overlay(Text("Breakfast")).foregroundColor(Color.white)
+                }
+            }
+            else {
+                Rectangle().frame(width:1, height:30).foregroundColor(Color.clear)//This makes the text in sync with the rounded rectangel surroundeing the Breakfast,lunch,dinner selection
+                Text("Breakfast").foregroundColor(Color.blue)
+            }
+        }.onTapGesture {
             buttonState = .breakfast
-        })
-        .foregroundColor(buttonState == .breakfast ? Color.black : Color.blue)
+        }.overlay(RoundedRectangle(cornerRadius: 100).stroke(Color.clear, lineWidth:1))
     }
     /**
      This method is used to return a view which displays the logo..
