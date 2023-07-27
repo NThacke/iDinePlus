@@ -18,14 +18,14 @@ struct DinnerMenu : View {
     
     @State var refresh : Bool = false;
     
-    private let manager : Manager
+    @EnvironmentObject private var manager : Manager
     
     var body : some View {
         List {
             ForEach(viewModel.myItems) {section in
                 Section(section.name) {
                     ForEach(section.items) {item in
-                        ItemRow(item : item, manager : manager)
+                        ItemRow(item : item)
                     }
                 }
             }
@@ -36,14 +36,10 @@ struct DinnerMenu : View {
             viewModel.loadData()
         }
     }
-    
-    init(manager : Manager) {
-        self.manager = manager;
-    }
 }
 
 struct DinnerMenu_Previews: PreviewProvider {
     static var previews: some View {
-        DinnerMenu(manager : Manager())
+        DinnerMenu().environmentObject(Manager())
     }
 }

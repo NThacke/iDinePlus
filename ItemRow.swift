@@ -13,12 +13,11 @@ import SwiftUI
  */
 
 struct ItemRow : View {
-    var item : MenuItem
-    
     /**
             The manager is used to manage operations between Views. In particular, whenever an item is added to the cart, the manager is notified.
      */
-    var manager : Manager
+    @EnvironmentObject private var manager : Manager
+    var item : MenuItem
     
     var body : some View {
         HStack {
@@ -50,9 +49,8 @@ struct ItemRow : View {
             
         }
     }
-    init(item: MenuItem, manager : Manager) {
+    init(item: MenuItem) {
         self.item = item
-        self.manager = manager
     }
 }
 /**
@@ -94,6 +92,6 @@ struct RestrictionView : View {
 
 struct ItemRow_Previews: PreviewProvider {
     static var previews: some View {
-        ItemRow(item : MenuItem.example(), manager : Manager())
+        ItemRow(item : MenuItem.example()).environmentObject(Manager())
     }
 }

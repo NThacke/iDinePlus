@@ -15,7 +15,7 @@ struct CustomizeItem : View {
     
     @EnvironmentObject var current : AppState
     
-    private let manager : Manager
+    @EnvironmentObject private var manager : Manager
     
     private let item : MenuItem
     
@@ -47,8 +47,7 @@ struct CustomizeItem : View {
             }
         }
     }
-    init(manager : Manager, item : MenuItem) {
-        self.manager = manager
+    init(item : MenuItem) {
         self.item = item
         self.comments = ""
     }
@@ -57,6 +56,8 @@ struct CustomizeItem : View {
 struct DisplayItem : View {
     
     let item : MenuItem
+    
+    @EnvironmentObject private var manager : Manager
     
     var body : some View {
         VStack {
@@ -87,6 +88,6 @@ struct DisplayItem : View {
 
 struct CustomizeItem_Previews: PreviewProvider {
     static var previews: some View {
-        CustomizeItem(manager : Manager(), item : MenuItem.example())
+        CustomizeItem( item : MenuItem.example()).environmentObject(Manager())
     }
 }

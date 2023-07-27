@@ -11,7 +11,7 @@ import SwiftUI
 struct iDineApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(AppState())
+            ContentView().environmentObject(AppState()).environmentObject(Manager())
         }
     }
 }
