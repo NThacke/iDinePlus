@@ -21,7 +21,6 @@ struct BreakfastMenu : View {
     @EnvironmentObject var manager : Manager
     
     var body : some View {
-        VStack {
             if(!viewModel.myItems.isEmpty) {
                 List {
                     ForEach(viewModel.myItems) {section in
@@ -41,7 +40,6 @@ struct BreakfastMenu : View {
             else {
                     Text("There aren't any items!")
             }
-        }
     }
 }
 
@@ -66,6 +64,7 @@ class MenuViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self?.myItems.removeAll()
                 self?.myItems = items
+                print(self?.myItems)
             }
         }
     }
