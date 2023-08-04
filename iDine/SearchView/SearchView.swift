@@ -21,7 +21,9 @@ struct SearchView : View {
                 Spacer()
             }
             .padding()
-            
+            List(restaurants.sorted(by : {$0.distance ?? 0 < $1.distance ?? 0})) {item in
+                RestaurantView(restaurant: item)
+            }
 //            List {
 //                ForEach(restaurants) { restaurant in
 //                    RestaurantView(restaurant: restaurant)

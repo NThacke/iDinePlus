@@ -48,7 +48,11 @@ class RestaurantAccount : Codable, Identifiable {
         self.visible = visible
         APIHelper.getAddress(restaurantID: id) {address in
             self.address = address
-            self.distance 
+            
+            let deltaX = abs(address?.latitude ?? 0 - Manager.coordinates.lat)
+            let deltaY = abs(address?.longitude ?? 0 - Manager.coordinates.lon)
+            
+            self.distance = sqrt( deltaX*deltaX + deltaY*deltaY)
         }
     }
     
