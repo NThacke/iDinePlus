@@ -109,6 +109,10 @@ class Manager : ObservableObject {
         print("Inside load restaurants")
         APIHelper.getRestaurants() {item in
             Manager.restaurants = item
+            
+            for rest in item {
+                rest.calculuateDistance()
+            }
             completion()
         }
     }

@@ -40,6 +40,7 @@ class RestaurantAccount : Codable, Identifiable {
     
     
     init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
+        print("Inside initalizaiton of RestaurantAccount")
         self.id = id
         self.restaurantName = restaurantName
         self.email = email
@@ -49,11 +50,23 @@ class RestaurantAccount : Codable, Identifiable {
         APIHelper.getAddress(restaurantID: id) {address in
             self.address = address
             
+            print("Restaurant address is \(address)")
+            
             let deltaX = abs(address?.latitude ?? 0 - Manager.coordinates.lat)
             let deltaY = abs(address?.longitude ?? 0 - Manager.coordinates.lon)
             
             self.distance = sqrt( deltaX*deltaX + deltaY*deltaY)
+            
+            print("Restaurant distance is \(self.distance)")
         }
+    }
+    
+    func calculuateDistance() {
+            
+        let deltaX = abs(address?.latitude ?? 0 - Manager.coordinates.lat)
+        let deltaY = abs(address?.longitude ?? 0 - Manager.coordinates.lon)
+            
+        self.distance = sqrt( deltaX*deltaX + deltaY*deltaY)
     }
     
     static func example() -> RestaurantAccount {
