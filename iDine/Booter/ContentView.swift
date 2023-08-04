@@ -43,6 +43,7 @@ public class AppState : ObservableObject{
         DispatchQueue.main.async {
             Manager.loadRestaurantAccounts {
                 self.state = AppState.searchView
+                print("Finished loading")
             }
         }
     }

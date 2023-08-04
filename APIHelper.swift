@@ -249,18 +249,24 @@ public class APIHelper {
                     //                print("Status code: \(httpResponse.statusCode)")
                     
                     if let data = data {
+                        let dispatchGroup = DispatchGroup() //A dispatch group allows you to perform asynchronous operations and be notified when all of those operations are completed.
+                        
                         let items = processRestaurants(data: data)
                         
                         for item in items {
+                            dispatchGroup.enter() //add an item to the dispatch group
                             getAddress(restaurantID: item.id) { address in
                                 if let address {
                                     item.address = address
                                 }
+                                dispatchGroup.leave() //leave the item from the dispatch group
                             }
                             print(item.restaurantName)
                         }
                         
-                        completion(items) // Call the completion handler with the received items
+                        dispatchGroup.notify(queue : .main) {//once every item has been dispatched, enter this block
+                            completion(items) // Call the completion handler with the received items
+                        }
                     } else {
                         completion([]) // Call the completion handler with an empty array
                     }
