@@ -19,8 +19,7 @@ class RestaurantAccount : Codable, Identifiable {
     //The restaurant name associated with this account
     var restaurantName : String
     
-    //The restaurant location associated with this account
-    var restaurantLocation : String
+    var address : Address
     
     //The email associated with this account
     var email : String
@@ -34,10 +33,9 @@ class RestaurantAccount : Codable, Identifiable {
     var visible : String
     
     
-    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
+    init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
         self.id = id
         self.restaurantName = restaurantName
-        self.restaurantLocation = restaurantLocation
         self.email = email
         self.restaurantImage = restaurantImage
         self.layoutStyle = layoutStyle
