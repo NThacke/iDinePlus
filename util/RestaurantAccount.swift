@@ -19,7 +19,7 @@ class RestaurantAccount : Codable, Identifiable {
     //The restaurant name associated with this account
     var restaurantName : String
     
-    var address : Address
+    var address : Address?
     
     //The email associated with this account
     var email : String
@@ -40,13 +40,15 @@ class RestaurantAccount : Codable, Identifiable {
         self.restaurantImage = restaurantImage
         self.layoutStyle = layoutStyle
         self.visible = visible
+        APIHelper.getAddress(restaurantID: id) {address in
+            self.address = address
+        }
     }
     
     static func example() -> RestaurantAccount {
         return RestaurantAccount(
             id : "EA878AD2-F77F-4096-878E-30489CE43D98",
             restaurantName : "Example Name",
-            restaurantLocation : "Example Location",
             email : "example@gmail.com",
             restaurantImage : exampleImage(),
             layoutStyle : "1",

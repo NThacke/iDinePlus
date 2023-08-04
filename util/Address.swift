@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Address : Codable {
+class Address : Codable, CustomStringConvertible {
     
     /**
         The address line associated with this address. An example would be "14 Birch Lane" for the address of "14 Birch Lane, Eatontown, NJ, 07724, US"
@@ -36,6 +36,22 @@ class Address : Codable {
      */
     
     var region : String
+    
+    /**
+     The description of an Address Object. This property must be defined to conform to the "CustomStringConvertible" protocol.
+     
+        By conforming to this protocol, we are allowing ourselves to invoke an Address Object inside a print statement  and have the String representation be displayed.
+     
+     For example, we could invoke :
+     
+        print(Address.example())
+     
+     And the print statement would print "14 Birch Lane, Eatontown, NJ, 07724, US"
+     */
+    
+    var description: String {
+        return "\(line), \(administrativeArea), \(locality), \(postalCode), \(region)"
+    }
     
     
     init(line : String, administrativeArea : String, locality : String, postalCode : String, region : String) {
