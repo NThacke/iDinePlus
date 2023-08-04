@@ -33,6 +33,12 @@ class RestaurantAccount : Codable, Identifiable {
     var visible : String
     
     
+    /**
+            The distance from this restaurant to the current user. This is what we can use to compare elements and sort based off distance.
+     */
+    var distance : Double?
+    
+    
     init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
         self.id = id
         self.restaurantName = restaurantName
@@ -42,6 +48,7 @@ class RestaurantAccount : Codable, Identifiable {
         self.visible = visible
         APIHelper.getAddress(restaurantID: id) {address in
             self.address = address
+            self.distance 
         }
     }
     

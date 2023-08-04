@@ -21,15 +21,16 @@ struct SearchView : View {
                 Spacer()
             }
             .padding()
-            List {
-                ForEach(restaurants) { restaurant in
-                    RestaurantView(restaurant: restaurant)
-                }
-            }.refreshable {
-                Manager.loadRestaurantAccounts() {
-                    refresh.toggle()
-                }
-            }
+            
+//            List {
+//                ForEach(restaurants) { restaurant in
+//                    RestaurantView(restaurant: restaurant)
+//                }
+//            }.refreshable {
+//                Manager.loadRestaurantAccounts() {
+//                    refresh.toggle()
+//                }
+//            }
         }
     }
 }

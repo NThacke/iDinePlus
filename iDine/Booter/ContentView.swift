@@ -5,6 +5,7 @@
 //  Created by Nick Thacke on 7/8/23.
 //
 import SwiftUI
+import Combine
 
 enum ButtonState {
     case breakfast
@@ -80,6 +81,13 @@ struct ContentView: View {
     
     @EnvironmentObject private var manager : Manager
     
+    @StateObject var deviceLocationService = DeviceLocationService.shared
+    
+    @State var tokens : Set<AnyCancellable> = []
+    @State var coordinates : (lat : Double, lon : Double) = (0,0)
+    
+    
+    
     var body : some View {
         VStack { //VStack ensures that we send back a View containing all of our info, rather than just the first View seen
             
@@ -88,11 +96,39 @@ struct ContentView: View {
             switch(current.state) {
                 case AppState.menuView : MenuView()
                 case AppState.searchView : SearchView()
-                
-                
+
+
             default : LoadingView()
             }
+        }.onAppear {
+            observeCoordinateUpdates()
+            observeCoordinateUpdates()
+            deviceLocationService.requestLocationUpdates()
         }
+    }
+    
+    func observeCoordinateUpdates() {
+        deviceLocationService.coordinatesPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case .failure (let error) = completion {
+                    print(error)
+                }
+            } receiveValue: { coords in
+                self.coordinates = (coords.latitude, coords.longitude)
+                Manager.coordinates = (coords.latitude, coords.longitude)
+                print("User coords are \(coordinates)")
+            }
+            .store(in: &tokens)
+    }
+    
+    func observeLocationAccessDenied() {
+        deviceLocationService.deniedLocationAccessPublisher
+            .receive(on: DispatchQueue.main)
+            .sink {
+                print("Did not receive location")
+            }
+            .store(in: &tokens)
     }
 }
 
