@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 class Address : Codable, CustomStringConvertible {
     
@@ -37,6 +38,10 @@ class Address : Codable, CustomStringConvertible {
     
     var region : String
     
+    var longitude : Double?
+    
+    var latitude : Double?
+    
     /**
      The description of an Address Object. This property must be defined to conform to the "CustomStringConvertible" protocol.
      
@@ -53,13 +58,42 @@ class Address : Codable, CustomStringConvertible {
         return "\(line), \(administrativeArea), \(locality), \(postalCode), \(region)"
     }
     
+    var lat_long : String {
+        return "(\(latitude ?? -1), \(longitude ?? -1))"
+    }
+    
     
     init(line : String, administrativeArea : String, locality : String, postalCode : String, region : String) {
+        
         self.line = line
         self.administrativeArea = administrativeArea
         self.locality = locality
         self.postalCode = postalCode
         self.region = region
+        
+        geocode() {}
+    }
+    
+    func geocode(completion : @escaping () -> Void) {
+        print("Inside geocode")
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString("\(description)") {(placemarks, error) in
+            if let error = error {
+                print("Geocoding error : \(error.localizedDescription)")
+                return
+            }
+            if let placemark = placemarks?.first {
+                if let location = placemark.location {
+                    let coord = location.coordinate
+                    self.latitude = coord.latitude
+                    self.longitude = coord.longitude
+                    
+                    print("(\(coord.latitude), \(coord.longitude))")
+                    completion()
+                }
+            }
+                      
+        }
     }
     
     static func example() -> Address {

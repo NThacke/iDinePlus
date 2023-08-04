@@ -299,10 +299,13 @@ public class APIHelper {
                 print("Status code: \(httpResponse.statusCode)")
                 
                 if let data = data {
+                    
+                    
                     let address = processAddress(data: data)
                     print("Address is : \(address ?? Address.example())")
-                    
-                    completion(address) // Call the completion handler with the received items
+                    address?.geocode() {
+                        completion(address)
+                    }
                 } else {
                     completion(nil)
                 }
