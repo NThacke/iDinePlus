@@ -42,21 +42,22 @@ struct RestaurantView : View {
     
     var body : some View {
         
-        VStack {
-            HStack {
-                
+        HStack {
+            VStack {
                 Image(uiImage : restaurant.image() ?? RestaurantAccount.example().image()!).resizable().frame(width: 50, height : 50).cornerRadius(100)
-                
+            }
+            VStack {
+                Spacer()
                 Text(restaurant.restaurantName)
-            }
-            
-            Text(restaurant.address?.description ?? Address.example().description)
-            Text(restaurant.address?.lat_long ?? Address.example().lat_long)
-            if let distance = restaurant.distance {
-                Text("Distance : \(distance)")
-            }
-            else {
-                Text("Distance : Error")
+                Spacer()
+                if let distance = restaurant.distance {
+                    let formatted = String(format : "%.1f", distance)
+                    Text("\(formatted) mi.")
+                }
+                else {
+                    Text("-1 mi.")
+                }
+                Spacer()
             }
         }
         .onTapGesture {
