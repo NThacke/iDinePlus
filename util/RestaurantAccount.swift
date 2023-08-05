@@ -54,12 +54,20 @@ class RestaurantAccount : Codable, Identifiable {
         }
     }
     
+    /**
+        Calculates the distance between this restaurant's address and the current user's location and stores it in the internal property self.distance
+     */
     func calculuateDistance() {
         
-        let restaurantLocation = CLLocation(latitude : address?.latitude ?? 0, longitude: address?.longitude ?? 0)
-        let userLocation = CLLocation(latitude: Manager.coordinates.lat, longitude: Manager.coordinates.lon)
-        
-        self.distance = restaurantLocation.distance(from: userLocation) * 0.000621371 
+        if(Manager.coordinates.lat != 0 && Manager.coordinates.lon != 0) {
+            if let lat = address!.latitude {
+                if let lon = address!.longitude {
+                    let restaurantLocation = CLLocation(latitude : lat, longitude: lon)
+                    let userLocation = CLLocation(latitude: Manager.coordinates.lat, longitude: Manager.coordinates.lon)
+                    self.distance = restaurantLocation.distance(from: userLocation) * 0.000621371
+                }
+            }
+        }
     }
     
     static func example() -> RestaurantAccount {
