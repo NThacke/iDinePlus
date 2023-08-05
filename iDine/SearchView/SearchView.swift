@@ -19,20 +19,17 @@ struct SearchView : View {
             HStack {
                 Text("Restaurants").bold()
                 Spacer()
+                Text("(\(Manager.coordinates.lat), \(Manager.coordinates.lon))")
             }
             .padding()
             List(restaurants.sorted(by : {$0.distance ?? 0 < $1.distance ?? 0})) {item in
                 RestaurantView(restaurant: item)
             }
-//            List {
-//                ForEach(restaurants) { restaurant in
-//                    RestaurantView(restaurant: restaurant)
-//                }
-//            }.refreshable {
-//                Manager.loadRestaurantAccounts() {
-//                    refresh.toggle()
-//                }
-//            }
+            .refreshable {
+                Manager.loadRestaurantAccounts {
+                    refresh.toggle()
+                }
+            }
         }
     }
 }
