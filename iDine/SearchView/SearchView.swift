@@ -52,7 +52,12 @@ struct RestaurantView : View {
             
             Text(restaurant.address?.description ?? Address.example().description)
             Text(restaurant.address?.lat_long ?? Address.example().lat_long)
-            Text("Distance : \(restaurant.distance ?? -100)")
+            if let distance = restaurant.distance {
+                Text("Distance : \(distance)")
+            }
+            else {
+                Text("Distance : Error")
+            }
         }
         .onTapGesture {
             current.state = AppState.menuView
