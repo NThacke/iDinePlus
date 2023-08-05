@@ -19,14 +19,14 @@ struct SearchView : View {
             HStack {
                 Text("Restaurants").bold()
                 Spacer()
+                Text("(\(Manager.coordinates.lat), \(Manager.coordinates.lon))")
             }
             .padding()
-            List {
-                ForEach(restaurants) { restaurant in
-                    RestaurantView(restaurant: restaurant)
-                }
-            }.refreshable {
-                Manager.loadRestaurantAccounts() {
+            List(restaurants.sorted(by : {$0.distance ?? 0 < $1.distance ?? 0})) {item in
+                RestaurantView(restaurant: item)
+            }
+            .refreshable {
+                Manager.loadRestaurantAccounts {
                     refresh.toggle()
                 }
             }
@@ -42,16 +42,27 @@ struct RestaurantView : View {
     
     var body : some View {
         
-        VStack {
-            HStack {
-                
+        HStack {
+            VStack {
                 Image(uiImage : restaurant.image() ?? RestaurantAccount.example().image()!).resizable().frame(width: 50, height : 50).cornerRadius(100)
-                
-                Text(restaurant.restaurantName)
-            }.onTapGesture {
-                current.state = AppState.menuView
-                AppState.account = restaurant
             }
+            VStack {
+                Spacer()
+                Text(restaurant.restaurantName)
+                Spacer()
+                if let distance = restaurant.distance {
+                    let formatted = String(format : "%.1f", distance)
+                    Text("\(formatted) mi.")
+                }
+                else {
+                    Text("-1 mi.")
+                }
+                Spacer()
+            }
+        }
+        .onTapGesture {
+            current.state = AppState.menuView
+            AppState.account = restaurant
         }
     }
     

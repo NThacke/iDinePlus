@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MapKit
 
 class RestaurantAccount : Codable, Identifiable {
     
@@ -19,8 +20,7 @@ class RestaurantAccount : Codable, Identifiable {
     //The restaurant name associated with this account
     var restaurantName : String
     
-    //The restaurant location associated with this account
-    var restaurantLocation : String
+    var address : Address?
     
     //The email associated with this account
     var email : String
@@ -34,21 +34,46 @@ class RestaurantAccount : Codable, Identifiable {
     var visible : String
     
     
-    init(id : String, restaurantName : String, restaurantLocation : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
+    /**
+            The distance from this restaurant to the current user. This is what we can use to compare elements and sort based off distance.
+     */
+    var distance : Double?
+    
+    
+    init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
+        print("Inside initalizaiton of RestaurantAccount")
         self.id = id
         self.restaurantName = restaurantName
-        self.restaurantLocation = restaurantLocation
         self.email = email
         self.restaurantImage = restaurantImage
         self.layoutStyle = layoutStyle
         self.visible = visible
+        APIHelper.getAddress(restaurantID: id) {address in
+            self.address = address
+            self.calculuateDistance()
+        }
+    }
+    
+    /**
+        Calculates the distance between this restaurant's address and the current user's location and stores it in the internal property self.distance
+     */
+    func calculuateDistance() {
+        
+        if(Manager.coordinates.lat != 0 && Manager.coordinates.lon != 0) {
+            if let lat = address!.latitude {
+                if let lon = address!.longitude {
+                    let restaurantLocation = CLLocation(latitude : lat, longitude: lon)
+                    let userLocation = CLLocation(latitude: Manager.coordinates.lat, longitude: Manager.coordinates.lon)
+                    self.distance = (restaurantLocation.distance(from: userLocation) * 0.000621371)
+                }
+            }
+        }
     }
     
     static func example() -> RestaurantAccount {
         return RestaurantAccount(
             id : "EA878AD2-F77F-4096-878E-30489CE43D98",
             restaurantName : "Example Name",
-            restaurantLocation : "Example Location",
             email : "example@gmail.com",
             restaurantImage : exampleImage(),
             layoutStyle : "1",

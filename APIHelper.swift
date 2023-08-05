@@ -249,13 +249,24 @@ public class APIHelper {
                     //                print("Status code: \(httpResponse.statusCode)")
                     
                     if let data = data {
+                        let dispatchGroup = DispatchGroup() //A dispatch group allows you to perform asynchronous operations and be notified when all of those operations are completed.
+                        
                         let items = processRestaurants(data: data)
                         
                         for item in items {
+                            dispatchGroup.enter() //add an item to the dispatch group
+                            getAddress(restaurantID: item.id) { address in
+                                if let address {
+                                    item.address = address
+                                }
+                                dispatchGroup.leave() //leave the item from the dispatch group
+                            }
                             print(item.restaurantName)
                         }
                         
-                        completion(items) // Call the completion handler with the received items
+                        dispatchGroup.notify(queue : .main) {//once every item has been dispatched, enter this block
+                            completion(items) // Call the completion handler with the received items
+                        }
                     } else {
                         completion([]) // Call the completion handler with an empty array
                     }
@@ -266,6 +277,56 @@ public class APIHelper {
             
             // Start the data task
             task.resume()
+    }
+    
+    static func getAddress(restaurantID: String, completion : @escaping (Address?) -> Void) {
+        
+        print("Getting address for restaurant with ID of '\(restaurantID)'")
+        let url = URL(string : "https://vqffc99j52.execute-api.us-east-1.amazonaws.com/Testing/admin_account/address?id=\(restaurantID)")!
+        // Create a URLSession instance
+        let session = URLSession.shared
+        
+        // Create a data task
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            // Handle the API response
+            if let httpResponse = response as? HTTPURLResponse {
+                print("Status code: \(httpResponse.statusCode)")
+                
+                if let data = data {
+                    
+                    
+                    let address = processAddress(data: data)
+                    print("Address is : \(address ?? Address.example())")
+                    address?.geocode() {
+                        completion(address)
+                    }
+                } else {
+                    completion(nil)
+                }
+            } else {
+                completion(nil)
+            }
+        }
+        
+        // Start the data task
+        task.resume()
+    }
+    
+    private static func processAddress(data : Data) -> Address? {
+        do {
+            let decoder = JSONDecoder()
+            let jsonData = try decoder.decode(Address.self, from: data)
+            return jsonData
+        } catch {
+            print(String(describing: error))
+        }
+        return nil
     }
 }
 

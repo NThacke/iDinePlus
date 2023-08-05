@@ -11,8 +11,9 @@ import SwiftUI
 
 class Manager : ObservableObject {
     
-    
     static var restaurants : [RestaurantAccount]?
+    
+    static var coordinates : (lat : Double, lon : Double) = (0,0)
     
     /**
             Every restaurant has its own cart associated with it. We have a [RestaurantID, Cart] as a [Key, Value] pair.
@@ -108,6 +109,10 @@ class Manager : ObservableObject {
         print("Inside load restaurants")
         APIHelper.getRestaurants() {item in
             Manager.restaurants = item
+            
+            for rest in item {
+                rest.calculuateDistance()
+            }
             completion()
         }
     }
