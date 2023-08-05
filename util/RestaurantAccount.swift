@@ -64,7 +64,7 @@ class RestaurantAccount : Codable, Identifiable {
                 if let lon = address!.longitude {
                     let restaurantLocation = CLLocation(latitude : lat, longitude: lon)
                     let userLocation = CLLocation(latitude: Manager.coordinates.lat, longitude: Manager.coordinates.lon)
-                    self.distance = restaurantLocation.distance(from: userLocation) * 0.000621371
+                    self.distance = (restaurantLocation.distance(from: userLocation) * 0.000621371)
                 }
             }
         }
