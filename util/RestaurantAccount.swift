@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MapKit
 
 class RestaurantAccount : Codable, Identifiable {
     
@@ -49,24 +50,16 @@ class RestaurantAccount : Codable, Identifiable {
         self.visible = visible
         APIHelper.getAddress(restaurantID: id) {address in
             self.address = address
-            
-            print("Restaurant address is \(address)")
-            
-            let deltaX = abs(address?.latitude ?? 0 - Manager.coordinates.lat)
-            let deltaY = abs(address?.longitude ?? 0 - Manager.coordinates.lon)
-            
-            self.distance = sqrt( deltaX*deltaX + deltaY*deltaY)
-            
-            print("Restaurant distance is \(self.distance)")
+            self.calculuateDistance()
         }
     }
     
     func calculuateDistance() {
-            
-        let deltaX = abs(address?.latitude ?? 0 - Manager.coordinates.lat)
-        let deltaY = abs(address?.longitude ?? 0 - Manager.coordinates.lon)
-            
-        self.distance = sqrt( deltaX*deltaX + deltaY*deltaY)
+        
+        let restaurantLocation = CLLocation(latitude : address?.latitude ?? 0, longitude: address?.longitude ?? 0)
+        let userLocation = CLLocation(latitude: Manager.coordinates.lat, longitude: Manager.coordinates.lon)
+        
+        self.distance = restaurantLocation.distance(from: userLocation) * 0.000621371 
     }
     
     static func example() -> RestaurantAccount {
