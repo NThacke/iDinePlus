@@ -49,6 +49,7 @@ struct RestaurantView : View {
             VStack {
                 Spacer()
                 Text(restaurant.restaurantName)
+                Text(restaurant.restaurantType)
                 Spacer()
                 if let distance = restaurant.distance {
                     let formatted = String(format : "%.1f", distance)
