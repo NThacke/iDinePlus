@@ -33,6 +33,8 @@ class RestaurantAccount : Codable, Identifiable {
     
     var visible : String
     
+    var restaurantType : String
+    
     
     /**
             The distance from this restaurant to the current user. This is what we can use to compare elements and sort based off distance.
@@ -40,7 +42,7 @@ class RestaurantAccount : Codable, Identifiable {
     var distance : Double?
     
     
-    init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String) {
+    init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String, restaurantType : String) {
         print("Inside initalizaiton of RestaurantAccount")
         self.id = id
         self.restaurantName = restaurantName
@@ -48,6 +50,7 @@ class RestaurantAccount : Codable, Identifiable {
         self.restaurantImage = restaurantImage
         self.layoutStyle = layoutStyle
         self.visible = visible
+        self.restaurantType = restaurantType
         APIHelper.getAddress(restaurantID: id) {address in
             self.address = address
             self.calculuateDistance()
@@ -73,11 +76,13 @@ class RestaurantAccount : Codable, Identifiable {
     static func example() -> RestaurantAccount {
         return RestaurantAccount(
             id : "EA878AD2-F77F-4096-878E-30489CE43D98",
-            restaurantName : "Example Name",
+            restaurantName : "Jose Tejas",
             email : "example@gmail.com",
             restaurantImage : exampleImage(),
             layoutStyle : "1",
-        visible: "false");
+            visible: "false",
+            restaurantType : "Mexican"
+            );
     }
     
     func image() -> UIImage? {
