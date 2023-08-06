@@ -91,8 +91,6 @@ struct ContentView: View {
     var body : some View {
         VStack { //VStack ensures that we send back a View containing all of our info, rather than just the first View seen
             
-            if(current.state == 0) {} //Causes the app to refresh when current.state changes
-            
             switch(current.state) {
                 case AppState.menuView : MenuView()
                 case AppState.searchView : SearchView()
@@ -100,10 +98,15 @@ struct ContentView: View {
 
             default : LoadingView()
             }
-        }.onAppear {
-            observeCoordinateUpdates()
-            observeCoordinateUpdates()
-            deviceLocationService.requestLocationUpdates()
+            
+            if(current.state == 1) {
+                VStack {
+                }.onAppear() {
+                    observeCoordinateUpdates()
+                    observeCoordinateUpdates()
+                    deviceLocationService.requestLocationUpdates()
+                }
+            } //Causes the app to refresh when current.state changes
         }
     }
     
