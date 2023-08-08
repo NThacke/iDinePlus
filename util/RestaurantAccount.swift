@@ -41,6 +41,9 @@ class RestaurantAccount : Codable, Identifiable {
      */
     var distance : Double?
     
+    static let MEXICAN = "Mexican"
+    static let ITALIAN = "Italian"
+    
     
     init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String, restaurantType : String) {
         print("Inside initalizaiton of RestaurantAccount")
