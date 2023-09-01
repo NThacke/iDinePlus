@@ -21,6 +21,8 @@ struct SearchView : View {
     
     @State var refresh = false
     
+    @EnvironmentObject var current : AppState
+    
     
     var restaurantPartitions: [String: [RestaurantAccount]] {
             Dictionary(grouping: restaurants, by: { $0.restaurantType })
@@ -64,6 +66,9 @@ struct SearchView : View {
                     }
                 }
             }
+            if(refresh) {
+                EmptyView()
+            }
             
         }
     }
@@ -74,6 +79,8 @@ struct RestaurantView : View {
     @EnvironmentObject var current : AppState
     
     var restaurant : RestaurantAccount
+    
+    @State var distance : Double
     
     var body : some View {
         
@@ -86,13 +93,29 @@ struct RestaurantView : View {
                 Text(restaurant.restaurantName)
                 Text(restaurant.restaurantType)
                 Spacer()
-                if let distance = restaurant.distance {
-                    let formatted = String(format : "%.1f", distance)
-                    Text("\(formatted) mi.")
+                if(distance == 0.0) {VStack{}}
+                Text("\(String(format : "%.1f", distance)) mi.")
+                
+                    if let address = restaurant.address {
+                        Text("\(address.description)")
+                    }
+                    else {
+                        Text("Invalid Address")
+                    }
+                
+                if let lat = restaurant.address?.latitude {
+                    Text("\(lat)")
                 }
                 else {
-                    Text("-1 mi.")
+                    Text("Invalid lat")
                 }
+                if let long = restaurant.address?.longitude {
+                    Text("\(long)")
+                }
+                else {
+                    Text("Invalid longitutede")
+                }
+                
                 Spacer()
             }
         }
@@ -100,12 +123,22 @@ struct RestaurantView : View {
             current.state = AppState.menuView
             AppState.account = restaurant
         }
+        .onAppear {
+            print("The Distance is \(distance)")
+        }
     }
     
     
     init(restaurant : RestaurantAccount) {
         self.restaurant = restaurant
+        self.distance = restaurant.calculuateDistance()
     }
+}
+
+class RestaurantInfo : ObservableObject {
+    
+    @State var distance : Double?
+    
 }
 
 
