@@ -20,10 +20,6 @@ struct SearchView : View {
     
     let options = ["Cuisine", "Distance"]
     
-    static let DISTANCE = 1
-    static let CUISINE = 0
-    static let WELCOME = -1
-    
     @State private var selectedOption = -1
     
     @ObservedObject var selectionCommunicator : SelectionCommunicator
@@ -41,9 +37,7 @@ struct SearchView : View {
         VStack {
             HStack {
                 Text("Restaurants").bold()
-                Spacer()
-                
-                SortSelector(selectionCommunicator: self.selectionCommunicator).padding().overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue, lineWidth : 1))
+                SortSelector(selectionCommunicator: self.selectionCommunicator).padding().overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue, lineWidth : 1)).frame(width:100, height : .infinity)
             }
             .padding()
             if(selectionCommunicator.selectedOption == SelectionCommunicator.DISTANCE) {
