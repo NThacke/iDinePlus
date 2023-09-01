@@ -14,10 +14,12 @@ struct SearchView : View {
     
     let options = ["Cuisine", "Distance"]
     
-    private static let DISTANCE = 1
-    private static let CUISINE = 0
+    static let DISTANCE = 1
+    static let CUISINE = 0
     
     @State private var selectedOption = -1
+    
+    @ObservedObject var selectionCommunicator : SelectionCommunicator
     
     @State var refresh = false
     
@@ -34,18 +36,10 @@ struct SearchView : View {
                 Text("Restaurants").bold()
                 Spacer()
                 
-                HStack {
-                    Text("Sort by :")
-                    Picker("Select", selection : $selectedOption) {
-                        ForEach(0..<options.count) {index in
-                            Text(self.options[index]).tag(index);
-                        }
-                    }
-                    Text(selectedOption.description)
-                }.padding().overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue, lineWidth : 1))
+                SortSelector(selectionCommunicator: self.selectionCommunicator).padding().overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue, lineWidth : 1))
             }
             .padding()
-            if(selectedOption == SearchView.DISTANCE) {
+            if(selectionCommunicator.selectedOption == SelectionCommunicator.DISTANCE) {
                 List(restaurants.sorted(by : {$0.distance ?? 0 < $1.distance ?? 0})) {item in
                     RestaurantView(restaurant: item)
                 }
@@ -55,7 +49,7 @@ struct SearchView : View {
                     }
                 }
             }
-            else if(selectedOption == SearchView.CUISINE) {
+            else if(selectionCommunicator.selectedOption == SelectionCommunicator.CUISINE) {
                 VStack {
                     ForEach(restaurantPartitions.keys.sorted(), id: \.self) { category in
                         Section(header: Text(category)) {
@@ -66,11 +60,12 @@ struct SearchView : View {
                     }
                 }
             }
-            if(refresh) {
-                EmptyView()
-            }
+            Text("\(selectionCommunicator.selectedOption)")
             
         }
+    }
+    init() {
+        self.selectionCommunicator = SelectionCommunicator()
     }
 }
 
