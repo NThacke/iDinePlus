@@ -120,7 +120,7 @@ struct ContentView: View {
             } receiveValue: { coords in
                 self.coordinates = (coords.latitude, coords.longitude)
                 Manager.coordinates = (coords.latitude, coords.longitude)
-                print("User coords are \(coordinates)")
+//                print("User coords are \(coordinates)")
             }
             .store(in: &tokens)
     }
