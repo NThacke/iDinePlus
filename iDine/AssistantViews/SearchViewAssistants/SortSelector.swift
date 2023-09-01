@@ -34,14 +34,24 @@ class SelectionCommunicator : ObservableObject {
     
     @Published var selectedOption : Int
     
+    /**
+     A selection indicating to sort restaurants by distance.
+     */
     static let DISTANCE = 1
+    /**
+     A selection indicating to sort restaurants by cuisine.
+     */
     static let CUISINE = 0
+    /**
+     A selection indicating to show the user the welcome page -- this is displayed prior to any restaurants are shown. One benfit of this is that many "under the hood" features can be loaded, in particular, the restaurant's distance.
+     */
+    static let WELCOME = -1
     
     func update(selection : Int) {
         self.selectedOption = selection
     }
     
     init() {
-        self.selectedOption = SearchView.DISTANCE
+        self.selectedOption = SearchView.WELCOME
     }
 }
