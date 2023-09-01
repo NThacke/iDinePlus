@@ -16,15 +16,62 @@ struct SortSelector : View {
         
             ScrollView(.horizontal) {
                 HStack {
-                    Button("Distance") {
-                        selectionCommunicator.update(selection : SelectionCommunicator.DISTANCE)
-                    }
-                    Button("Cuisine") {
-                        selectionCommunicator.update(selection: SelectionCommunicator.CUISINE)
-                    }
+                    DistanceButton(selectionCommunicator : selectionCommunicator)
+                    CuisineButton(selectionCommunicator : selectionCommunicator)
                 }
             }
     }
+    init(selectionCommunicator : SelectionCommunicator) {
+        self.selectionCommunicator = selectionCommunicator
+    }
+}
+
+struct DistanceButton : View {
+    @ObservedObject var selectionCommunicator : SelectionCommunicator
+    
+    var body : some View {
+        
+        if(selectionCommunicator.selectedOption == SelectionCommunicator.DISTANCE) {
+            Text("Distance")
+                .padding(10)
+                .background(
+                    RoundedRectangle(cornerRadius: 50)
+                    .fill(Color.blue) // Set the background color
+                )
+                .foregroundColor(.white) // Set the text color
+        }
+        else {
+            Button("Distance") {
+                selectionCommunicator.selectedOption = SelectionCommunicator.DISTANCE
+            }.padding(10)
+        }
+    }
+    init(selectionCommunicator : SelectionCommunicator) {
+        self.selectionCommunicator = selectionCommunicator
+    }
+}
+
+struct CuisineButton : View {
+    @ObservedObject var selectionCommunicator : SelectionCommunicator
+    
+    var body : some View {
+        
+        if(selectionCommunicator.selectedOption == SelectionCommunicator.CUISINE) {
+            Text("Cuisine")
+                .padding(10)  // Add padding to the text
+                .background(
+                    RoundedRectangle(cornerRadius: 50)
+                    .fill(Color.blue) // Set the background color
+                )
+                .foregroundColor(.white) // Set the text color
+        }
+        else {
+            Button("Cuisine") {
+                selectionCommunicator.selectedOption = SelectionCommunicator.CUISINE
+            }.padding(10)
+        }
+    }
+    
     init(selectionCommunicator : SelectionCommunicator) {
         self.selectionCommunicator = selectionCommunicator
     }
