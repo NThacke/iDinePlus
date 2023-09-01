@@ -8,6 +8,12 @@
 import Foundation
 import SwiftUI
 
+/**
+ This View is the SearchView in which all restaurants can be searched from.
+ 
+ 
+ */
+
 struct SearchView : View {
     
     @State var restaurants = Manager.restaurants ?? Manager.exampleRestaurants()
@@ -16,6 +22,7 @@ struct SearchView : View {
     
     static let DISTANCE = 1
     static let CUISINE = 0
+    static let WELCOME = -1
     
     @State private var selectedOption = -1
     
@@ -59,6 +66,9 @@ struct SearchView : View {
                         }
                     }
                 }
+            }
+            else if(selectionCommunicator.selectedOption == SelectionCommunicator.WELCOME) {
+                Welcome()
             }
             Text("\(selectionCommunicator.selectedOption)")
             
