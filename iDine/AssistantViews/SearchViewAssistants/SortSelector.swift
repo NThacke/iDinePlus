@@ -99,6 +99,6 @@ class SelectionCommunicator : ObservableObject {
     }
     
     init() {
-        self.selectedOption = SearchView.WELCOME
+        self.selectedOption = SelectionCommunicator.WELCOME
     }
 }
