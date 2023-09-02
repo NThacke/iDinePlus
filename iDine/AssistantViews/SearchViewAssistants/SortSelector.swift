@@ -19,6 +19,7 @@ struct SortSelector : View {
                 SelectionButton(selection : .CUISINE)
                 SelectionButton(selection : .MEXICAN)
                 SelectionButton(selection: .ITALIAN)
+                SelectionButton(selection: .JAPANESE)
                 SelectionButton(selection: .WELCOME)
             }.padding()
         }.scrollIndicators(ScrollIndicatorVisibility.hidden)
@@ -71,6 +72,7 @@ enum Selection : CustomStringConvertible {
     case WELCOME
     case ITALIAN
     case MEXICAN
+    case JAPANESE
     
     var description: String {
         switch self {
@@ -79,6 +81,7 @@ enum Selection : CustomStringConvertible {
         case .WELCOME : return "Welcome"
         case .ITALIAN : return "Italian"
         case .MEXICAN : return "Mexican"
+        case .JAPANESE : return "Japanese"
         }
     }
 }

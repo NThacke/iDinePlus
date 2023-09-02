@@ -43,6 +43,7 @@ class RestaurantAccount : Codable, Identifiable {
     
     static let MEXICAN = "Mexican"
     static let ITALIAN = "Italian"
+    static let JAPANESE = "Japanese"
     
     
     init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String, restaurantType : String) {

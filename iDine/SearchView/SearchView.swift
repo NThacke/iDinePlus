@@ -37,6 +37,7 @@ struct SearchView : View {
             case .CUISINE : cuisineView()
             case .ITALIAN : specialityView(restaurantType: RestaurantAccount.ITALIAN)
             case .MEXICAN :specialityView(restaurantType: RestaurantAccount.MEXICAN)
+            case .JAPANESE : specialityView(restaurantType: RestaurantAccount.JAPANESE)
             case .WELCOME : welcomeView()
             }
         }
