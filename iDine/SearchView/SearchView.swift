@@ -28,6 +28,8 @@ struct SearchView : View {
     
     @EnvironmentObject var current : AppState
     
+    @State private var expandedCategories: Set<String> = []
+    
     
     var restaurantPartitions: [String: [RestaurantAccount]] {
             Dictionary(grouping: restaurants, by: { $0.restaurantType })
@@ -37,6 +39,7 @@ struct SearchView : View {
         VStack {
             HStack {
                 Text("Restaurants").bold()
+                Spacer()
                 SortSelector(selectionCommunicator: self.selectionCommunicator).padding().overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue, lineWidth : 1)).frame(width:100, height : .infinity)
             }
             .padding()
@@ -51,15 +54,38 @@ struct SearchView : View {
                 }
             }
             else if(selectionCommunicator.selectedOption == SelectionCommunicator.CUISINE) {
-                VStack {
-                    ForEach(restaurantPartitions.keys.sorted(), id: \.self) { category in
-                        Section(header: Text(category)) {
-                            ForEach(restaurantPartitions[category]!, id: \.restaurantName) { account in
-                                Text(account.restaurantName)
+//                VStack {
+//                    ForEach(restaurantPartitions.keys.sorted(), id: \.self) { category in
+//                        Section(header: Text(category)) {
+//                                ForEach(restaurantPartitions[category]!, id: \.restaurantName) { account in
+//                                    Text(account.restaurantName)
+//                                }
+//                        }
+//                    }
+//                }
+                
+                List {
+                            ForEach(restaurantPartitions.keys.sorted(), id: \.self) { category in
+                                Section(
+                                    header: Text(category),
+                                    footer: EmptyView()
+                                ) {
+                                    ForEach(restaurantPartitions[category]!, id: \.restaurantName) { account in
+                                        Text(account.restaurantName)
+                                    }
+                                }
+                                .textCase(nil)
+                                .onTapGesture {
+                                    // Toggle the expanded state of the category
+                                    if expandedCategories.contains(category) {
+                                        expandedCategories.remove(category)
+                                    } else {
+                                        expandedCategories.insert(category)
+                                    }
+                                }
                             }
                         }
-                    }
-                }
+                
             }
             else if(selectionCommunicator.selectedOption == SelectionCommunicator.WELCOME) {
                 Welcome()
