@@ -41,6 +41,10 @@ class RestaurantAccount : Codable, Identifiable {
      */
     var distance : Double?
     
+    static let MEXICAN = "Mexican"
+    static let ITALIAN = "Italian"
+    static let JAPANESE = "Japanese"
+    
     
     init(id : String, restaurantName : String, email : String, restaurantImage : String, layoutStyle : String, visible : String, restaurantType : String) {
         print("Inside initalizaiton of RestaurantAccount")
@@ -60,17 +64,20 @@ class RestaurantAccount : Codable, Identifiable {
     /**
         Calculates the distance between this restaurant's address and the current user's location and stores it in the internal property self.distance
      */
-    func calculuateDistance() {
-        
+    func calculuateDistance() -> Double {
+        print("Inside calculatDistance()")
         if(Manager.coordinates.lat != 0 && Manager.coordinates.lon != 0) {
             if let lat = address!.latitude {
                 if let lon = address!.longitude {
                     let restaurantLocation = CLLocation(latitude : lat, longitude: lon)
                     let userLocation = CLLocation(latitude: Manager.coordinates.lat, longitude: Manager.coordinates.lon)
                     self.distance = (restaurantLocation.distance(from: userLocation) * 0.000621371)
+                    print("RestaurantAccount Distance is \(self.distance ?? -1)")
+                    return self.distance ?? -1
                 }
             }
         }
+        return -1
     }
     
     static func example() -> RestaurantAccount {
