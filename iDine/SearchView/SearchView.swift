@@ -16,8 +16,6 @@ struct SearchView : View {
     
     @State var restaurants = Manager.restaurants ?? Manager.exampleRestaurants()
     
-    let options = ["Cuisine", "Distance"]
-    
     @State private var selectedOption = -1
     
     @ObservedObject var selectionCommunicator : SelectionCommunicator
@@ -37,8 +35,8 @@ struct SearchView : View {
             switch(selectionCommunicator.selectedOption) {
             case .DISTANCE : distanceView()
             case .CUISINE : cuisineView()
-            case .ITALIAN : italianView()
-            case .MEXICAN : mexicanView()
+            case .ITALIAN : specialityView(restaurantType: RestaurantAccount.ITALIAN)
+            case .MEXICAN :specialityView(restaurantType: RestaurantAccount.MEXICAN)
             case .WELCOME : welcomeView()
             }
         }
@@ -93,14 +91,31 @@ struct SearchView : View {
             }
         }
     }
-    private func italianView() -> some View {
+    /**
+     A SpecialityView which is used to display only a particular type of cuisine to the user.
+     
+     The cuisine that will be displayed is dependent upon the given field, (restaurantType)
+     */
+    private func specialityView(restaurantType : String) -> some View {
         VStack {
-            List(resta)
-        }
-    }
-    private func mexicanView() -> some View {
-        VStack {
-            Spacer()
+            let category = restaurantType
+            HStack {
+                Text(category).italic()
+                Spacer()
+            }.padding()
+            if let restaurants = restaurantPartitions[category] {
+                List{
+                    ForEach(restaurants) { account in
+                        RestaurantView(restaurant: account)
+                    }
+                }
+            }
+            else {
+                Spacer()
+                Text("It's quiet in here...").bold()
+                Text("There doesn't seem to be any \(category) restaurants.").italic().foregroundColor(Color.gray)
+                Spacer()
+            }
         }
     }
     private func welcomeView() -> some View {
