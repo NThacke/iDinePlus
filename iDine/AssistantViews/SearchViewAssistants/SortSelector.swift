@@ -10,57 +10,29 @@ import SwiftUI
 
 struct SortSelector : View {
     
-    @ObservedObject var selectionCommunicator : SelectionCommunicator
+    @EnvironmentObject var selectionCommunicator : SelectionCommunicator
     
     var body : some View {
-            
-        VStack {
-            Text("Sort")
-            ScrollView(.horizontal) {
-                HStack {
-                    DistanceButton(selectionCommunicator : selectionCommunicator)
-                    CuisineButton(selectionCommunicator : selectionCommunicator)
-                }
-            }
-        }
-    }
-    init(selectionCommunicator : SelectionCommunicator) {
-        self.selectionCommunicator = selectionCommunicator
+        ScrollView(.horizontal) {
+            HStack {
+                SelectionButton(selection : .DISTANCE)
+                SelectionButton(selection : .CUISINE)
+                SelectionButton(selection : .MEXICAN)
+                SelectionButton(selection: .ITALIAN)
+                SelectionButton(selection: .WELCOME)
+            }.padding()
+        }.scrollIndicators(ScrollIndicatorVisibility.hidden)
     }
 }
 
-struct DistanceButton : View {
-    @ObservedObject var selectionCommunicator : SelectionCommunicator
+private struct SelectionButton : View {
+    @EnvironmentObject var selectionCommunicator : SelectionCommunicator
+    var selection : Selection
     
     var body : some View {
         
-        if(selectionCommunicator.selectedOption == SelectionCommunicator.DISTANCE) {
-            Text("Distance")
-                .padding(10)
-                .background(
-                    RoundedRectangle(cornerRadius: 50)
-                    .fill(Color.blue) // Set the background color
-                )
-                .foregroundColor(.white) // Set the text color
-        }
-        else {
-            Button("Distance") {
-                selectionCommunicator.selectedOption = SelectionCommunicator.DISTANCE
-            }.padding(10)
-        }
-    }
-    init(selectionCommunicator : SelectionCommunicator) {
-        self.selectionCommunicator = selectionCommunicator
-    }
-}
-
-struct CuisineButton : View {
-    @ObservedObject var selectionCommunicator : SelectionCommunicator
-    
-    var body : some View {
-        
-        if(selectionCommunicator.selectedOption == SelectionCommunicator.CUISINE) {
-            Text("Cuisine")
+        if(selectionCommunicator.selectedOption == selection) {
+            Text(selection.description)
                 .padding(10)  // Add padding to the text
                 .background(
                     RoundedRectangle(cornerRadius: 50)
@@ -69,39 +41,44 @@ struct CuisineButton : View {
                 .foregroundColor(.white) // Set the text color
         }
         else {
-            Button("Cuisine") {
-                selectionCommunicator.selectedOption = SelectionCommunicator.CUISINE
+            Button(selection.description) {
+                selectionCommunicator.selectedOption = selection
             }.padding(10)
         }
     }
     
-    init(selectionCommunicator : SelectionCommunicator) {
-        self.selectionCommunicator = selectionCommunicator
+    init(selection: Selection) {
+        self.selection = selection
     }
 }
 
 class SelectionCommunicator : ObservableObject {
     
-    @Published var selectedOption : Int
+    @Published var selectedOption : Selection
     
-    /**
-     A selection indicating to sort restaurants by distance.
-     */
-    static let DISTANCE = 1
-    /**
-     A selection indicating to sort restaurants by cuisine.
-     */
-    static let CUISINE = 0
-    /**
-     A selection indicating to show the user the welcome page -- this is displayed prior to any restaurants are shown. One benfit of this is that many "under the hood" features can be loaded, in particular, the restaurant's distance.
-     */
-    static let WELCOME = -1
-    
-    func update(selection : Int) {
+    func update(selection : Selection) {
         self.selectedOption = selection
     }
     
     init() {
-        self.selectedOption = SelectionCommunicator.WELCOME
+        self.selectedOption = .WELCOME
+    }
+}
+
+enum Selection : CustomStringConvertible {
+    case DISTANCE
+    case CUISINE
+    case WELCOME
+    case ITALIAN
+    case MEXICAN
+    
+    var description: String {
+        switch self {
+        case .CUISINE : return "Cuisine"
+        case .DISTANCE : return "Distance"
+        case .WELCOME : return "Welcome"
+        case .ITALIAN : return "Italian"
+        case .MEXICAN : return "Mexican"
+        }
     }
 }

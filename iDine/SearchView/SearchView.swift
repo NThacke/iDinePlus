@@ -10,8 +10,6 @@ import SwiftUI
 
 /**
  This View is the SearchView in which all restaurants can be searched from.
- 
- 
  */
 
 struct SearchView : View {
@@ -28,8 +26,6 @@ struct SearchView : View {
     
     @EnvironmentObject var current : AppState
     
-    @State private var expandedCategories: Set<String> = []
-    
     
     var restaurantPartitions: [String: [RestaurantAccount]] {
             Dictionary(grouping: restaurants, by: { $0.restaurantType })
@@ -37,65 +33,83 @@ struct SearchView : View {
     
     var body : some View {
         VStack {
-            HStack {
-                Text("Restaurants").bold()
-                Spacer()
-                SortSelector(selectionCommunicator: self.selectionCommunicator).padding().overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue, lineWidth : 1)).frame(width:100, height : .infinity)
+            header()
+            switch(selectionCommunicator.selectedOption) {
+            case .DISTANCE : distanceView()
+            case .CUISINE : cuisineView()
+            case .ITALIAN : italianView()
+            case .MEXICAN : mexicanView()
+            case .WELCOME : welcomeView()
             }
-            .padding()
-            if(selectionCommunicator.selectedOption == SelectionCommunicator.DISTANCE) {
-                List(restaurants.sorted(by : {$0.distance ?? 0 < $1.distance ?? 0})) {item in
-                    RestaurantView(restaurant: item)
-                }
-                .refreshable {
-                    Manager.loadRestaurantAccounts {
-                        refresh.toggle()
-                    }
-                }
-            }
-            else if(selectionCommunicator.selectedOption == SelectionCommunicator.CUISINE) {
-//                VStack {
-//                    ForEach(restaurantPartitions.keys.sorted(), id: \.self) { category in
-//                        Section(header: Text(category)) {
-//                                ForEach(restaurantPartitions[category]!, id: \.restaurantName) { account in
-//                                    Text(account.restaurantName)
-//                                }
-//                        }
-//                    }
-//                }
-                
-                List {
-                            ForEach(restaurantPartitions.keys.sorted(), id: \.self) { category in
-                                Section(
-                                    header: Text(category),
-                                    footer: EmptyView()
-                                ) {
-                                    ForEach(restaurantPartitions[category]!, id: \.restaurantName) { account in
-                                        Text(account.restaurantName)
-                                    }
-                                }
-                                .textCase(nil)
-                                .onTapGesture {
-                                    // Toggle the expanded state of the category
-                                    if expandedCategories.contains(category) {
-                                        expandedCategories.remove(category)
-                                    } else {
-                                        expandedCategories.insert(category)
-                                    }
-                                }
-                            }
-                        }
-                
-            }
-            else if(selectionCommunicator.selectedOption == SelectionCommunicator.WELCOME) {
-                Welcome()
-            }
-            Text("\(selectionCommunicator.selectedOption)")
-            
         }
     }
     init() {
         self.selectionCommunicator = SelectionCommunicator()
+    }
+    
+    /**
+        The Header View. This contains information that is persistent independent of the selected option (of which is used to sort restaurants by).
+     
+        This header information is unique to the SearchView, and as such, this method is private within the overvall SearchView View.
+     */
+    private func header() -> some View {
+        VStack {
+            HStack {
+                Text("Restaurants").bold()
+                Spacer()
+            }.padding()
+            SortSelector().environmentObject(selectionCommunicator)
+        }
+    }
+    
+    /**
+        The Distance View. This is the view that is displayed to the user whenever they have selected the "DISTANCE" button to sort restaurants by.
+        
+        Similar to other function-views (in the sense of functions which return an object conforming to the View protocol), this method is private within the Search View, as it is unique to the Search View.
+     */
+    private func distanceView() -> some View {
+        List(restaurants.sorted(by : {$0.distance ?? 0 < $1.distance ?? 0})) {item in
+            RestaurantView(restaurant: item)
+        }
+        .refreshable {
+            Manager.loadRestaurantAccounts {
+                refresh.toggle()
+            }
+        }
+    }
+    /**
+        The Cuisine View. This is the view that is displayed to the user whenever they have selected the "CUISINE" button to sort restaurants by.
+        
+        Similar to other function-views (in the sense of functions which return an object conforming to the View protocol), this method is private within the Search View, as it is unique to the Search View.
+     */
+    private func cuisineView() -> some View {
+        List {
+            ForEach(restaurantPartitions.keys.sorted(), id: \.self) {category in
+                Section(category.description) {
+                    ForEach(restaurantPartitions[category]!, id: \.restaurantName) { account in
+                        RestaurantView(restaurant: account)
+                    }
+                }
+            }
+        }
+    }
+    private func italianView() -> some View {
+        VStack {
+            List(resta)
+        }
+    }
+    private func mexicanView() -> some View {
+        VStack {
+            Spacer()
+        }
+    }
+    private func welcomeView() -> some View {
+        VStack {
+            Spacer()
+            Text("Welcome to our app!").bold()
+            Text("Choose an option above to sort restaurants by.").italic().foregroundColor(Color.gray)
+            Spacer()
+        }
     }
 }
 
