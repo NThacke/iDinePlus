@@ -13,13 +13,16 @@ struct SortSelector : View {
     @ObservedObject var selectionCommunicator : SelectionCommunicator
     
     var body : some View {
-        
+            
+        VStack {
+            Text("Sort")
             ScrollView(.horizontal) {
                 HStack {
                     DistanceButton(selectionCommunicator : selectionCommunicator)
                     CuisineButton(selectionCommunicator : selectionCommunicator)
                 }
             }
+        }
     }
     init(selectionCommunicator : SelectionCommunicator) {
         self.selectionCommunicator = selectionCommunicator
