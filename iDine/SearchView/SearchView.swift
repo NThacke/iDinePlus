@@ -150,17 +150,18 @@ struct RestaurantView : View {
                     Text(restaurant.restaurantName)
                     Spacer()
                 }
+                Rectangle().frame(width: .infinity, height: 1).foregroundColor(Color.red)
                 Text(restaurant.restaurantType)
                 Spacer()
                 if(distance == 0.0) {VStack{}}
-                Text("\(String(format : "%.1f", distance)) mi.")
+                Text("\(String(format : "%.1f", distance)) mi.").padding().background(RoundedRectangle(cornerRadius:50).fill(Color.red.opacity(0.75))).foregroundColor(Color.white)
                 
-                    if let address = restaurant.address {
-                        Text("\(address.description)")
-                    }
-                    else {
-                        Text("Invalid Address")
-                    }
+//                    if let address = restaurant.address {
+//                        Text("\(address.description)")
+//                    }
+//                    else {
+//                        Text("Invalid Address")
+//                    }
                 
                 Spacer()
             }
