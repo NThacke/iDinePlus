@@ -143,9 +143,13 @@ struct RestaurantView : View {
             VStack {
                 Image(uiImage : restaurant.image() ?? RestaurantAccount.example().image()!).resizable().frame(width: 50, height : 50).cornerRadius(100)
             }
-            VStack {
+            VStack(alignment : .center) {
                 Spacer()
-                Text(restaurant.restaurantName)
+                HStack {
+                    Spacer()
+                    Text(restaurant.restaurantName)
+                    Spacer()
+                }
                 Text(restaurant.restaurantType)
                 Spacer()
                 if(distance == 0.0) {VStack{}}
@@ -157,19 +161,6 @@ struct RestaurantView : View {
                     else {
                         Text("Invalid Address")
                     }
-                
-                if let lat = restaurant.address?.latitude {
-                    Text("\(lat)")
-                }
-                else {
-                    Text("Invalid lat")
-                }
-                if let long = restaurant.address?.longitude {
-                    Text("\(long)")
-                }
-                else {
-                    Text("Invalid longitutede")
-                }
                 
                 Spacer()
             }
