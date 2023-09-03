@@ -143,33 +143,25 @@ struct RestaurantView : View {
             VStack {
                 Image(uiImage : restaurant.image() ?? RestaurantAccount.example().image()!).resizable().frame(width: 50, height : 50).cornerRadius(100)
             }
-            VStack {
+            VStack(alignment : .center) {
                 Spacer()
-                Text(restaurant.restaurantName)
+                HStack {
+                    Spacer()
+                    Text(restaurant.restaurantName)
+                    Spacer()
+                }
+                Rectangle().frame(width: .infinity, height: 1).foregroundColor(Color.red)
                 Text(restaurant.restaurantType)
                 Spacer()
                 if(distance == 0.0) {VStack{}}
-                Text("\(String(format : "%.1f", distance)) mi.")
+                Text("\(String(format : "%.1f", distance)) mi.").padding().background(RoundedRectangle(cornerRadius:50).fill(Color.red.opacity(0.75))).foregroundColor(Color.white)
                 
-                    if let address = restaurant.address {
-                        Text("\(address.description)")
-                    }
-                    else {
-                        Text("Invalid Address")
-                    }
-                
-                if let lat = restaurant.address?.latitude {
-                    Text("\(lat)")
-                }
-                else {
-                    Text("Invalid lat")
-                }
-                if let long = restaurant.address?.longitude {
-                    Text("\(long)")
-                }
-                else {
-                    Text("Invalid longitutede")
-                }
+//                    if let address = restaurant.address {
+//                        Text("\(address.description)")
+//                    }
+//                    else {
+//                        Text("Invalid Address")
+//                    }
                 
                 Spacer()
             }
